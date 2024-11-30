@@ -22,8 +22,23 @@ function startGame() {
     console.log("Game Started");
 
     lstSprites = [];
-    let imageEnnemy = imageLoader.getImage("images/enemyred.png");
-    lstSprites.push(new Sprite(imageEnnemy));
+
+    // Joueur
+    let imagePlayer = imageLoader.getImage("images/player.png")
+    let spritePlayer = new Sprite(imagePlayer);
+    spritePlayer.setTileSheet(30, 16);
+    spritePlayer.x = 25 * 4;
+    spritePlayer.setScale(4, 4);
+
+    // Ennemi rouge
+    let imageEnemy = imageLoader.getImage("images/enemyred.png");
+    let spriteEnemy = new Sprite(imageEnemy);
+    spriteEnemy.setTileSheet(24, 24);
+    spriteEnemy.setScale(4, 4);
+
+
+    lstSprites.push(spritePlayer);
+    lstSprites.push(spriteEnemy);
 
     gameReady = true;
 }

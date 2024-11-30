@@ -9,7 +9,7 @@ let targetRefreshRate = 1 / 250;
 function showFPS() {
     ctx.fillStyle = "White";
     ctx.font = "normal 16pt Arial";
-    ctx.fillText(Math.floor(fps) + " FPS", 15, 30);
+    ctx.fillText(Math.floor(fps) + " FPS", canvas.width - 95, 30);
 }
 
 function run(time) {
@@ -24,7 +24,7 @@ function run(time) {
 
     fps = 1 / dt;
     lastUpdate = time;
-    console.log("Run !");
+    //console.log("Run !");
     update(dt);
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     draw(ctx);
@@ -33,6 +33,12 @@ function run(time) {
 
 function init() {
     console.log("Init");
+
+    // Pixel art effect when scale > 1
+    ctx.imageSmoothingEnabled = false;
+    ctx.msImageSmoothingEnabled = false;
+    ctx.webkitImageSmoothingEnabled = false;
+    ctx.mozImageSmoothingEnabled = false;
     load();
     requestAnimationFrame(run);
 }
