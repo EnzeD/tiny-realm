@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.10" tiledversion="1.10.2" name="Structures" tilewidth="8" tileheight="8" tilecount="2944" columns="32">
- <image source="../../../Users/zullo/Downloads/Mini-Medieval-v2.1/Mini-Medieval-8x8/Structures.png" width="256" height="736"/>
+ <image source="../images/Structures.png" width="256" height="736"/>
  <tile id="512">
   <animation>
    <frame tileid="512" duration="100"/>

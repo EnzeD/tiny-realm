@@ -4,6 +4,21 @@ let KeyLeft = false;
 let KeyUp = false;
 let KeyDown = false;
 
+function checkPlayerInput(dt) {
+    if (KeyRight) {
+        img.x += speed * dt;
+    }
+    if (KeyLeft) {
+        img.x -= speed * dt;
+    }
+    if (KeyUp) {
+        img.y -= speed * dt;
+    }
+    if (KeyDown) {
+        img.y += speed * dt;
+    }
+}
+
 function keyUp(t) {
     t.preventDefault();
     if (t.code == "ArrowRight") {
