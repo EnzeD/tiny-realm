@@ -1,0 +1,43 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "Ores.tsx": {
+            "scaleInDock": 4,
+            "scaleInEditor": 1
+        },
+        "map.tmx": {
+            "scale": 5.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 993.4545454545455,
+                "y": 663.4545454545455
+            }
+        }
+    },
+    "frame.defaultDuration": 100,
+    "last.exportedFilePath": "C:/GameDev/JavaScript/tiny-realm",
+    "last.imagePath": "C:/Users/zullo/Downloads/Mini-Medieval-v2.1/Mini-Medieval-8x8",
+    "map.height": 20,
+    "map.lastUsedExportFilter": "Fichiers de carte JSON (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 8,
+    "map.tileWidth": 8,
+    "map.width": 30,
+    "openFiles": [
+    ],
+    "project": "tiny-realm.tiled-project",
+    "recentFiles": [
+        "Ores.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 8,
+        "width": 8
+    }
+}
