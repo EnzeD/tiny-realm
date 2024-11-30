@@ -12,12 +12,43 @@ class Sprite {
         this.scaleY = 1;
 
         this.currentFrame = 0;
+        this.currentFrameInAnimation = 0;
+        this.currentAnimation = null;
+        this.frameTimer = 0;
 
         this.tileSize = {
             x: 0,
             y: 0
         }
         this.tileSheet = false;
+
+        this.animations = [];
+    }
+
+    addAnimation(pName, pFrames, pSpeed, pLoop = true) {
+        let animation = {
+            name: pName,
+            frames: pFrames,
+            speed: pSpeed,
+            loop: pLoop
+        }
+        this.animations.push(animation);
+    }
+
+    startAnimation(pName) {
+        if (this.currentAnimation != null) {
+            if (pName == this.currentAnimation.name) {
+                return;
+            }
+        }
+
+        this.animations.forEach(animation => {
+            if (animation.name = pName) {
+                this.currentAnimation = animation;
+                this.currentFrameInAnimation = 0;
+                this.currentFrame = this.currentAnimation.frames[this.currentFrameInAnimation];
+            }
+        });
     }
 
     setTileSheet(pSizeX, pSizeY) {
@@ -29,6 +60,17 @@ class Sprite {
     setScale(pX, pY) {
         this.scaleX = pX;
         this.scaleY = pY;
+    }
+
+    update(dt) {
+        if (this.currentAnimation != null) {
+            this.frameTimer += dt;
+            if (this.frameTimer >= this.currentAnimation.speed) {
+                this.frameTimer = 0;
+                this.currentFrameInAnimation++;
+                this.currentFrame = this.currentAnimation.frames[this.currentFrameInAnimation];
+            }
+        }
     }
 
     draw(pCtx) {

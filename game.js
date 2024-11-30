@@ -29,6 +29,9 @@ function startGame() {
     spritePlayer.setTileSheet(30, 16);
     spritePlayer.x = 25 * 4;
     spritePlayer.setScale(4, 4);
+    spritePlayer.addAnimation("TURNRIGHT", [0, 1, 2, 3, 4, 5, 6, 7, 8], 10, false);
+    spritePlayer.addAnimation("TURNUP", [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], 10, false);
+    spritePlayer.startAnimation("TURNUP");
 
     // Ennemi rouge
     let imageEnemy = imageLoader.getImage("images/enemyred.png");
@@ -47,6 +50,10 @@ function update(dt) {
     if (!gameReady) {
         return;
     }
+
+    lstSprites.forEach(sprite => {
+        sprite.update(dt);
+    });
 
     // checkPlayerInput(dt);
 }
