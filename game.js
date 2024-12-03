@@ -4,6 +4,9 @@ let imageLoader = new ImageLoader();
 let gameReady = false;
 let lstSprites = [];
 
+let spritePlayer;
+let spriteEnemy;
+
 function rnd(min, max) {
     return Math.floor(Math.random() * (max - min) + min)
 }
@@ -25,19 +28,21 @@ function startGame() {
 
     // Joueur
     let imagePlayer = imageLoader.getImage("images/player.png")
-    let spritePlayer = new Sprite(imagePlayer);
+    spritePlayer = new Sprite(imagePlayer);
     spritePlayer.setTileSheet(30, 16);
     spritePlayer.x = 25 * 4;
     spritePlayer.setScale(4, 4);
-    spritePlayer.addAnimation("TURNRIGHT", [0, 1, 2, 3, 4, 5, 6, 7, 8], 10, false);
-    spritePlayer.addAnimation("TURNUP", [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], 10, false);
-    spritePlayer.startAnimation("TURNUP");
+    spritePlayer.addAnimation("TURNRIGHT", [0, 1, 2, 3, 4, 5, 6, 7, 8], 0.1, false);
+    spritePlayer.addAnimation("TURNUP", [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], 0.1, false);
+    spritePlayer.startAnimation("TURNRIGHT");
 
     // Ennemi rouge
     let imageEnemy = imageLoader.getImage("images/enemyred.png");
-    let spriteEnemy = new Sprite(imageEnemy);
+    spriteEnemy = new Sprite(imageEnemy);
     spriteEnemy.setTileSheet(24, 24);
     spriteEnemy.setScale(4, 4);
+    spriteEnemy.addAnimation("TURN", [0, 1, 2, 3, 4, 5], 0.1);
+    spriteEnemy.startAnimation("TURN");
 
 
     lstSprites.push(spritePlayer);
@@ -54,6 +59,10 @@ function update(dt) {
     lstSprites.forEach(sprite => {
         sprite.update(dt);
     });
+
+    if (spritePlayer.currentAnimation.name == "TURNRIGHT" && spritePlayer.currentAnimation.end) {
+        spritePlayer.startAnimation("TURNUP");
+    }
 
     // checkPlayerInput(dt);
 }

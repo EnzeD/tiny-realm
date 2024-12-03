@@ -30,7 +30,8 @@ class Sprite {
             name: pName,
             frames: pFrames,
             speed: pSpeed,
-            loop: pLoop
+            loop: pLoop,
+            end: false
         }
         this.animations.push(animation);
     }
@@ -43,10 +44,11 @@ class Sprite {
         }
 
         this.animations.forEach(animation => {
-            if (animation.name = pName) {
+            if (animation.name == pName) {
                 this.currentAnimation = animation;
                 this.currentFrameInAnimation = 0;
                 this.currentFrame = this.currentAnimation.frames[this.currentFrameInAnimation];
+                this.currentAnimation.end = false;
             }
         });
     }
@@ -68,6 +70,14 @@ class Sprite {
             if (this.frameTimer >= this.currentAnimation.speed) {
                 this.frameTimer = 0;
                 this.currentFrameInAnimation++;
+                if (this.currentFrameInAnimation > this.currentAnimation.frames.length - 1) {
+                    if (this.currentAnimation.loop) {
+                        this.currentFrameInAnimation = 0;
+                    } else {
+                        this.currentFrameInAnimation = this.currentAnimation.frames.length - 1;
+                        this.currentAnimation.end = true;
+                    }
+                }
                 this.currentFrame = this.currentAnimation.frames[this.currentFrameInAnimation];
             }
         }
