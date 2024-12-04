@@ -7,6 +7,8 @@ let lstSprites = [];
 let spritePlayer;
 let spriteEnemy;
 
+const SCALE = 5;
+
 function rnd(min, max) {
     return Math.floor(Math.random() * (max - min) + min)
 }
@@ -17,6 +19,9 @@ function load() {
 
     imageLoader.add("images/enemyred.png");
     imageLoader.add("images/player.png");
+    imageLoader.add("images/Units.png");
+    imageLoader.add("images/Animals.png");
+    imageLoader.add("images/Overworld.png");
 
     imageLoader.start(startGame);
 }
@@ -26,8 +31,15 @@ function startGame() {
 
     lstSprites = [];
 
+    // Map
+    let imageMap = imageLoader.getImage("images/Overworld.png");
+    spriteMap = new Sprite(imageMap);
+    spriteMap.setTileSheet(8, 8);
+    spriteMap.currentFrame = 0;
+    spriteMap.setScale(SCALE, SCALE);
+
     // Joueur
-    let imagePlayer = imageLoader.getImage("images/player.png")
+    let imagePlayer = imageLoader.getImage("images/player.png");
     spritePlayer = new Sprite(imagePlayer);
     spritePlayer.setTileSheet(30, 16);
     spritePlayer.x = 25 * 4;
@@ -45,8 +57,9 @@ function startGame() {
     spriteEnemy.startAnimation("TURN");
 
 
-    lstSprites.push(spritePlayer);
-    lstSprites.push(spriteEnemy);
+    lstSprites.push(spriteMap);
+    //lstSprites.push(spritePlayer);
+    //lstSprites.push(spriteEnemy);
 
     gameReady = true;
 }
