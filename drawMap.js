@@ -3,12 +3,20 @@ function drawMap() {
     let imageWalls = imageLoader.getImage("images/Walls.png");
     let imageStructures = imageLoader.getImage("images/Structures.png");
 
-    // Create a collision map array
-    let collisionMap = new Array(mapHeight).fill(0).map(() => new Array(mapWidth).fill(false));
-
     return fetch("map/map-test2.json")
         .then(response => response.json())
         .then(mapData => {
+            // Get map dimensions from the JSON
+            const mapWidth = mapData.width;
+            const mapHeight = mapData.height;
+
+            // Create collision map array using map dimensions
+            let collisionMap = new Array(mapHeight).fill(0).map(() => new Array(mapWidth).fill(false));
+
+            // Store map dimensions globally
+            window.WORLD_WIDTH = mapWidth;
+            window.WORLD_HEIGHT = mapHeight;
+
             // Process collision objects if they exist
             mapData.layers.forEach(layer => {
                 if (layer.type === "objectgroup" && layer.name === "Collision") {
@@ -33,7 +41,7 @@ function drawMap() {
                         // Mark tiles as collidable
                         for (let y = tileY; y < tileY + tileH; y++) {
                             for (let x = tileX; x < tileX + tileW; x++) {
-                                if (y >= 0 && y < mapHeight && x >= 0 && x < mapWidth) {
+                                if (y >= 0 && y < WORLD_HEIGHT && x >= 0 && x < WORLD_WIDTH) {
                                     collisionMap[y][x] = true;
                                 }
                             }
@@ -84,15 +92,16 @@ function drawMap() {
                         let sprite = new Sprite(tilesetImage);
                         sprite.setTileSheet(tileWidth, tileHeight);
 
-                        // Calculate position
-                        const x = index % mapWidth;
-                        const y = Math.floor(index / mapWidth);
-                        const tileX = x * tileHeight * scale;
-                        const tileY = y * tileWidth * scale;
+                        // Calculate position - round to prevent sub-pixel rendering
+                        const x = index % window.WORLD_WIDTH;
+                        const y = Math.floor(index / window.WORLD_WIDTH);
+                        const tileX = Math.floor(x * tileWidth * scale);
+                        const tileY = Math.floor(y * tileHeight * scale);
 
                         sprite.x = tileX;
                         sprite.y = tileY;
                         sprite.currentFrame = adjustedTileId;
+                        // Change back to normal scale
                         sprite.setScale(scale, scale);
 
                         // Check if this tile has an animation
@@ -109,6 +118,6 @@ function drawMap() {
         })
         .catch(error => {
             console.error("Error loading map:", error);
-            return collisionMap;  // Return empty collision map in case of error
+            return [];
         });
 }

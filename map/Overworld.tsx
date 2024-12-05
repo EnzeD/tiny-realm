@@ -87,9 +87,9 @@
  </tile>
  <tile id="842">
   <animation>
-   <frame tileid="842" duration="100"/>
-   <frame tileid="843" duration="100"/>
-   <frame tileid="844" duration="100"/>
+   <frame tileid="842" duration="400"/>
+   <frame tileid="843" duration="400"/>
+   <frame tileid="844" duration="400"/>
   </animation>
  </tile>
 </tileset>

@@ -109,7 +109,7 @@ class Sprite {
 
     draw(pCtx) {
         if (!this.tileSheet) {
-            pCtx.drawImage(this.img, this.x, this.y);
+            pCtx.drawImage(this.img, Math.round(this.x), Math.round(this.y));
         }
         else {
             let nbCol = this.img.width / this.tileSize.x;
@@ -119,19 +119,28 @@ class Sprite {
             l = Math.floor(this.currentFrame / nbCol);
             c = this.currentFrame - (l * nbCol);
 
-            let x = c * this.tileSize.x;
-            let y = l * this.tileSize.y;
+            let x = Math.floor(c * this.tileSize.x);
+            let y = Math.floor(l * this.tileSize.y);
+
+            const destX = Math.round(this.x);
+            const destY = Math.round(this.y);
+            const destWidth = Math.round(this.tileSize.x * this.scaleX);
+            const destHeight = Math.round(this.tileSize.y * this.scaleY);
 
             pCtx.save();
 
             if (this.flipX) {
-                pCtx.translate(this.x + (this.tileSize.x * this.scaleX), this.y);
+                pCtx.translate(Math.round(this.x + destWidth), destY);
                 pCtx.scale(-1, 1);
-                pCtx.drawImage(this.img, x, y, this.tileSize.x, this.tileSize.y,
-                    0, 0, this.tileSize.x * this.scaleX, this.tileSize.y * this.scaleY);
+                pCtx.drawImage(this.img,
+                    x, y, this.tileSize.x, this.tileSize.y,
+                    0, 0, destWidth, destHeight
+                );
             } else {
-                pCtx.drawImage(this.img, x, y, this.tileSize.x, this.tileSize.y,
-                    this.x, this.y, this.tileSize.x * this.scaleX, this.tileSize.y * this.scaleY);
+                pCtx.drawImage(this.img,
+                    x, y, this.tileSize.x, this.tileSize.y,
+                    destX, destY, destWidth, destHeight
+                );
             }
 
             pCtx.restore();

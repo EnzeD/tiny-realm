@@ -1,22 +1,18 @@
 let speed = 200;
-
 let imageLoader = new ImageLoader();
 let gameReady = false;
 let lstSprites = [];
 
+const playerSpawnYOffset = 30;
+
 let spritePlayer;
 let spriteEnemy;
-
-const scale = 5;
-const tileWidth = 8;
-const tileHeight = 8;
-const mapWidth = 32;
-const mapHeight = 18;
 
 let lstBackgroundSprites = [];
 let lstGameplaySprites = [];
 
 let collisionMap;
+let camera;
 
 function rnd(min, max) {
     return _.random(min, max);
@@ -38,6 +34,9 @@ function load() {
 function startGame() {
     console.log("Game Started");
 
+    // Initialize camera with canvas dimensions
+    camera = new Camera(canvas.width, canvas.height);
+
     lstBackgroundSprites = [];
     lstGameplaySprites = [];
 
@@ -50,9 +49,9 @@ function startGame() {
         spritePlayer = new Sprite(imagePlayer);
         spritePlayer.setTileSheet(tileWidth, tileHeight);
 
-        // Position player in the middle of the screen
-        spritePlayer.x = (canvas.width / 2) - (tileWidth * scale / 2);
-        spritePlayer.y = (canvas.height / 2) - (tileHeight * scale / 2) + 30;
+        // Position player in the middle of the map using dynamic world size
+        spritePlayer.x = (window.WORLD_WIDTH * tileWidth * scale / 2) - (tileWidth * scale / 2);
+        spritePlayer.y = (window.WORLD_HEIGHT * tileHeight * scale / 2) - (tileHeight * scale / 2) + playerSpawnYOffset;
         spritePlayer.setScale(scale, scale);
 
         // Set up animations
@@ -63,16 +62,20 @@ function startGame() {
 
         lstGameplaySprites.push(spritePlayer);
 
+        // Make camera follow player
+        camera.follow(spritePlayer);
+
         gameReady = true;
     });
 }
 
 function update(dt) {
-    if (!gameReady) {
-        return;
-    }
+    if (!gameReady) return;
 
     checkPlayerInput(dt);
+
+    // Update camera position
+    camera.update();
 
     lstBackgroundSprites.forEach(sprite => {
         sprite.update(dt);
@@ -93,30 +96,64 @@ function draw(pCtx) {
         return;
     }
 
+    // Save the context state
+    pCtx.save();
+
+    // Translate everything by camera position, ensuring whole pixels
+    pCtx.translate(-Math.round(camera.x), -Math.round(camera.y));
+
     // Draw background first
     lstBackgroundSprites.forEach(sprite => {
-        sprite.draw(pCtx);
+        // Only draw sprites that are visible in the camera view
+        if (isVisible(sprite)) {
+            sprite.draw(pCtx);
+        }
     });
 
     // Then draw gameplay sprites
     lstGameplaySprites.forEach(sprite => {
-        sprite.draw(pCtx);
+        if (isVisible(sprite)) {
+            sprite.draw(pCtx);
+        }
     });
 
     if (DEBUG_MODE) {
-        // Draw collision map
+        // Draw collision map (adjusted for camera)
         pCtx.fillStyle = "rgba(255, 0, 0, 0.3)";
-        for (let y = 0; y < mapHeight; y++) {
-            for (let x = 0; x < mapWidth; x++) {
+        for (let y = 0; y < window.WORLD_HEIGHT; y++) {
+            for (let x = 0; x < window.WORLD_WIDTH; x++) {
                 if (collisionMap[y]?.[x]) {
-                    pCtx.fillRect(
-                        x * tileWidth * scale,
-                        y * tileHeight * scale,
-                        tileWidth * scale,
-                        tileHeight * scale
-                    );
+                    const screenX = x * tileWidth * scale;
+                    const screenY = y * tileHeight * scale;
+                    if (isPositionVisible(screenX, screenY)) {
+                        pCtx.fillRect(
+                            screenX,
+                            screenY,
+                            tileWidth * scale,
+                            tileHeight * scale
+                        );
+                    }
                 }
             }
         }
     }
+
+    // Restore the context state
+    pCtx.restore();
+}
+
+// Helper function to check if a sprite is visible in the camera view
+function isVisible(sprite) {
+    return sprite.x + (tileWidth * scale) >= camera.x &&
+        sprite.x <= camera.x + camera.width &&
+        sprite.y + (tileHeight * scale) >= camera.y &&
+        sprite.y <= camera.y + camera.height;
+}
+
+// Helper function to check if a position is visible in the camera view
+function isPositionVisible(x, y) {
+    return x + (tileWidth * scale) >= camera.x &&
+        x <= camera.x + camera.width &&
+        y + (tileHeight * scale) >= camera.y &&
+        y <= camera.y + camera.height;
 }

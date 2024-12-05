@@ -17,14 +17,12 @@ function run(time) {
     let now = Date.now();
     let dt = (time - lastUpdate) / 1000;
 
-    // FrameRate Limiter
     if (dt < targetRefreshRate - 0.001) {
         return;
     }
 
     fps = 1 / dt;
     lastUpdate = time;
-    //console.log("Run !");
     update(dt);
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     draw(ctx);
@@ -33,13 +31,17 @@ function run(time) {
 
 function init() {
     console.log("Init");
-
-    // Pixel art effect when scale > 1
     ctx.imageSmoothingEnabled = false;
     ctx.msImageSmoothingEnabled = false;
     ctx.webkitImageSmoothingEnabled = false;
     ctx.mozImageSmoothingEnabled = false;
-    load();
+
+    if (typeof load === 'function') {
+        load();
+    } else {
+        console.error('load function not found');
+    }
+
     requestAnimationFrame(run);
 }
 
