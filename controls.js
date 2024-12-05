@@ -2,12 +2,18 @@ let KeyRight = false;
 let KeyLeft = false;
 let KeyUp = false;
 let KeyDown = false;
+let KeyE = false;
 let DEBUG_MODE = false;
+let canCollectWood = false;
+let currentWoodObject = null;
+let lastWoodCollision = null;
 
 function checkPlayerInput(dt) {
     let isMoving = false;
     let dx = 0;
     let dy = 0;
+    let horizontalCollision = false;
+    let verticalCollision = false;
 
     // Calculate movement direction
     if (KeyRight) {
@@ -25,7 +31,46 @@ function checkPlayerInput(dt) {
         dy += 1;
     }
 
-    // Normalize diagonal movement
+    // Get player center position in tile coordinates
+    const playerCenterX = Math.floor((spritePlayer.x + (tileWidth * scale / 2)) / (tileWidth * scale));
+    const playerCenterY = Math.floor((spritePlayer.y + (tileHeight * scale / 2)) / (tileHeight * scale));
+
+    // Check surrounding tiles for wood
+    const radius = 2;
+    let foundWoodThisFrame = false;
+
+    for (let dy = -radius; dy <= radius; dy++) {
+        for (let dx = -radius; dx <= radius; dx++) {
+            const tileX = playerCenterX + dx;
+            const tileY = playerCenterY + dy;
+
+            if (collisionMap[tileY]?.[tileX]) {
+                const objName = window.collisionNames[`${tileX},${tileY}`];
+                if (objName === "Wood") {
+                    // Calculate actual distance
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance <= radius) {
+                        foundWoodThisFrame = true;
+                        lastWoodCollision = { x: tileX * tileWidth * scale, y: tileY * tileHeight * scale };
+                        break;
+                    }
+                }
+            }
+        }
+        if (foundWoodThisFrame) break;
+    }
+
+    // Update wood collection state
+    if (foundWoodThisFrame) {
+        canCollectWood = true;
+        currentWoodObject = lastWoodCollision;
+    } else {
+        canCollectWood = false;
+        currentWoodObject = null;
+        lastWoodCollision = null;
+    }
+
+    // Handle movement
     if (dx !== 0 || dy !== 0) {
         isMoving = true;
         if (dx !== 0 && dy !== 0) {
@@ -45,7 +90,6 @@ function checkPlayerInput(dt) {
             const topTile = Math.floor(spritePlayer.y / (tileHeight * scale));
             const bottomTile = Math.floor((spritePlayer.y + playerHeight) / (tileHeight * scale));
 
-            let horizontalCollision = false;
             for (let y = topTile; y <= bottomTile; y++) {
                 for (let x = leftTile; x <= rightTile; x++) {
                     if (collisionMap[y]?.[x]) {
@@ -71,7 +115,6 @@ function checkPlayerInput(dt) {
             const topTile = Math.floor(newY / (tileHeight * scale));
             const bottomTile = Math.floor((newY + playerHeight) / (tileHeight * scale));
 
-            let verticalCollision = false;
             for (let y = topTile; y <= bottomTile; y++) {
                 for (let x = leftTile; x <= rightTile; x++) {
                     if (collisionMap[y]?.[x]) {
@@ -119,6 +162,9 @@ function keyUp(t) {
         case "KeyS":
             KeyDown = false;
             break;
+        case "KeyE":
+            KeyE = false;
+            break;
     }
 }
 
@@ -147,5 +193,23 @@ function keyDown(t) {
             DEBUG_MODE = !DEBUG_MODE;
             console.log("Debug mode:", DEBUG_MODE ? "ON" : "OFF");
             break;
+        case "KeyE":
+            KeyE = true;
+            if (canCollectWood && currentWoodObject) {
+                collectWood(currentWoodObject);
+            }
+            break;
     }
+}
+
+function collectWood(woodObj) {
+    if (!woodObj) return;
+
+    // Convert screen coordinates to world coordinates
+    const screenPos = camera.worldToScreen(woodObj.x, woodObj.y);
+    woodSystem.collectWood(screenPos.x, screenPos.y);
+
+    // Reset collection state
+    canCollectWood = false;
+    currentWoodObject = null;
 }

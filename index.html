@@ -1,7 +1,29 @@
 <html>
 
+<head>
+    <style>
+        @font-face {
+            font-family: 'Pixelated Elegance';
+            src: url('fonts/pixelated-elegance.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            font-family: "Pixelated Elegance", monospace;
+        }
+
+        canvas {
+            background-color: cornflowerblue;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+    </style>
+</head>
+
 <body>
-    <canvas id="canvas" width="1280" height="720" style="background-color:cornflowerblue;"></canvas>
+    <canvas id="canvas" width="1280" height="720"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <script src="constants.js"></script>
     <script src="ImageLoader.js"></script>
@@ -11,6 +33,7 @@
     <script src="drawMap.js"></script>
     <script src="game.js"></script>
     <script src="main.js"></script>
+    <script src="woodSystem.js"></script>
 </body>
 
 </html>

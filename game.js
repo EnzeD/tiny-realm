@@ -73,6 +73,7 @@ function update(dt) {
     if (!gameReady) return;
 
     checkPlayerInput(dt);
+    woodSystem.update(dt);
 
     // Update camera position
     camera.update();
@@ -136,10 +137,56 @@ function draw(pCtx) {
                 }
             }
         }
+
+        // Draw debug info for surrounding tiles
+        const playerCenterX = Math.floor((spritePlayer.x + (tileWidth * scale / 2)) / (tileWidth * scale));
+        const playerCenterY = Math.floor((spritePlayer.y + (tileHeight * scale / 2)) / (tileHeight * scale));
+
+        // Check a 2-tile radius (5x5 grid centered on player)
+        const radius = 2;
+        pCtx.font = getFont('DEBUG');
+        pCtx.textAlign = "center";
+        pCtx.textBaseline = "middle";
+
+        for (let dy = -radius; dy <= radius; dy++) {
+            for (let dx = -radius; dx <= radius; dx++) {
+                const tileX = playerCenterX + dx;
+                const tileY = playerCenterY + dy;
+                const screenX = tileX * tileWidth * scale;
+                const screenY = tileY * tileHeight * scale;
+
+                // Draw tile border
+                pCtx.strokeStyle = "yellow";
+                pCtx.strokeRect(
+                    screenX,
+                    screenY,
+                    tileWidth * scale,
+                    tileHeight * scale
+                );
+
+                // Draw coordinates and object name if exists
+                const objName = collisionMap[tileY]?.[tileX] ?
+                    window.collisionNames[`${tileX},${tileY}`] || "?" :
+                    "";
+
+                // Calculate distance from player center
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                // Draw tile info
+                pCtx.fillStyle = "white";
+                pCtx.fillText(
+                    `${dx},${dy}${objName ? `\n${objName}` : ""}\n${distance.toFixed(1)}`,
+                    screenX + (tileWidth * scale / 2),
+                    screenY + (tileHeight * scale / 2)
+                );
+            }
+        }
     }
 
     // Restore the context state
     pCtx.restore();
+
+    woodSystem.draw(pCtx);
 }
 
 // Helper function to check if a sprite is visible in the camera view
