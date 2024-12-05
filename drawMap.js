@@ -12,6 +12,7 @@ function drawMap() {
 
             // Create collision map array using map dimensions
             let collisionMap = new Array(mapHeight).fill(0).map(() => new Array(mapWidth).fill(false));
+            let collisionNames = {};  // New object to store names
 
             // Store map dimensions globally
             window.WORLD_WIDTH = mapWidth;
@@ -32,23 +33,21 @@ function drawMap() {
                         const tileW = Math.max(1, Math.ceil(obj.width / tileWidth));
                         const tileH = Math.max(1, Math.ceil(obj.height / tileHeight));
 
-                        console.log(`Collision area ${obj.name}:`, {
-                            original: { x: obj.x, y: obj.y },
-                            rounded: { x: roundedX, y: roundedY },
-                            tile: { x: tileX, y: tileY, w: tileW, h: tileH }
-                        });
-
-                        // Mark tiles as collidable
+                        // Mark tiles as collidable and store object name
                         for (let y = tileY; y < tileY + tileH; y++) {
                             for (let x = tileX; x < tileX + tileW; x++) {
                                 if (y >= 0 && y < WORLD_HEIGHT && x >= 0 && x < WORLD_WIDTH) {
                                     collisionMap[y][x] = true;
+                                    collisionNames[`${x},${y}`] = obj.name || 'Unknown';
                                 }
                             }
                         }
                     });
                 }
             });
+
+            // Make collisionNames globally available
+            window.collisionNames = collisionNames;
 
             // Create a lookup for tile animations
             const animationsByTileId = {};

@@ -50,6 +50,8 @@ function checkPlayerInput(dt) {
                 for (let x = leftTile; x <= rightTile; x++) {
                     if (collisionMap[y]?.[x]) {
                         horizontalCollision = true;
+                        const objName = window.collisionNames[`${x},${y}`];
+                        console.log(`Collision with ${objName} at x:${x}, y:${y} while moving ${dx > 0 ? 'right' : 'left'}`);
                         break;
                     }
                 }
@@ -74,6 +76,8 @@ function checkPlayerInput(dt) {
                 for (let x = leftTile; x <= rightTile; x++) {
                     if (collisionMap[y]?.[x]) {
                         verticalCollision = true;
+                        const objName = window.collisionNames[`${x},${y}`];
+                        console.log(`Collision with ${objName} at x:${x}, y:${y} while moving ${dy > 0 ? 'down' : 'up'}`);
                         break;
                     }
                 }
