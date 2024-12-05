@@ -7,6 +7,8 @@ let DEBUG_MODE = false;
 let canCollectWood = false;
 let currentWoodObject = null;
 let lastWoodCollision = null;
+let KeyEPressed = false;
+let KeyEReady = true;
 
 function checkPlayerInput(dt) {
     let isMoving = false;
@@ -164,6 +166,8 @@ function keyUp(t) {
             break;
         case "KeyE":
             KeyE = false;
+            KeyEPressed = false;
+            KeyEReady = true;
             break;
     }
 }
@@ -195,8 +199,10 @@ function keyDown(t) {
             break;
         case "KeyE":
             KeyE = true;
-            if (canCollectWood && currentWoodObject) {
+            if (!KeyEPressed && KeyEReady && canCollectWood && currentWoodObject) {
                 collectWood(currentWoodObject);
+                KeyEPressed = true;
+                KeyEReady = false;
             }
             break;
     }

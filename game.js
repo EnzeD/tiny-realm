@@ -1,4 +1,4 @@
-let speed = 200;
+let speed = BASE_SPEED * scale;
 let imageLoader = new ImageLoader();
 let gameReady = false;
 let lstSprites = [];
@@ -14,6 +14,8 @@ let lstGameplaySprites = [];
 let collisionMap;
 let camera;
 
+let fullscreenButton;
+
 function rnd(min, max) {
     return _.random(min, max);
 }
@@ -27,6 +29,7 @@ function load() {
     imageLoader.add("images/Overworld.png");
     imageLoader.add("images/Walls.png");
     imageLoader.add("images/Structures.png");
+    imageLoader.add("images/Interface.png");
 
     imageLoader.start(startGame);
 }
@@ -65,6 +68,10 @@ function startGame() {
         // Make camera follow player
         camera.follow(spritePlayer);
 
+        // Initialize fullscreen button
+        const interfaceImage = imageLoader.getImage("images/Interface.png");
+        fullscreenButton = new FullscreenButton(interfaceImage);
+
         gameReady = true;
     });
 }
@@ -74,6 +81,11 @@ function update(dt) {
 
     checkPlayerInput(dt);
     woodSystem.update(dt);
+
+    // Update fullscreen button
+    if (fullscreenButton) {
+        fullscreenButton.update(dt);
+    }
 
     // Update camera position
     camera.update();
@@ -187,6 +199,11 @@ function draw(pCtx) {
     pCtx.restore();
 
     woodSystem.draw(pCtx);
+
+    // Draw the fullscreen button (after restore so it's in screen space)
+    if (fullscreenButton) {
+        fullscreenButton.draw(pCtx);
+    }
 }
 
 // Helper function to check if a sprite is visible in the camera view
@@ -204,3 +221,10 @@ function isPositionVisible(x, y) {
         y + (tileHeight * scale) >= camera.y &&
         y <= camera.y + camera.height;
 }
+
+// Add a resize handler to update button position
+window.addEventListener('resize', () => {
+    if (fullscreenButton) {
+        fullscreenButton.updatePosition();
+    }
+});

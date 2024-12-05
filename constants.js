@@ -1,27 +1,28 @@
-const scale = 5;
+const scale = 3;
 const tileWidth = 8;
 const tileHeight = 8;
+const BASE_SPEED = 40;
 
 // Text size configuration
 const TEXT_CONFIG = {
     DEBUG: {
-        size: 32,
+        size: 2 * scale,
         weight: 'normal'
     },
     FPS: {
-        size: 32,
+        size: 6 * scale,
         weight: 'normal'
     },
     WOOD_COUNT: {
-        size: 32,
+        size: 6 * scale,
         weight: 'normal'
     },
     FLOATING_TEXT: {
-        size: 32,
+        size: 6 * scale,
         weight: 'normal'
     },
     COLLECT_PROMPT: {
-        size: 32,
+        size: 6 * scale,
         weight: 'normal'
     }
 };
@@ -33,8 +34,27 @@ const TEXT_COLORS = {
 
 // Text shadow configuration
 const TEXT_SHADOW = {
-    offset: 4,
+    offset: Math.floor(0.75 * scale),
     color: "rgba(0, 0, 0, 0.5)"
+};
+
+// UI layout configuration
+const UI_CONFIG = {
+    padding: 4 * scale,  // Base padding (8 pixels * scale)
+    positions: {
+        WOOD_COUNT: {
+            x: 4 * scale,  // Left padding
+            y: 4 * scale   // Top padding
+        },
+        FPS: {
+            x: -4 * scale,  // Right padding (negative for right alignment)
+            y: 4 * scale    // Top padding
+        },
+        COLLECT_PROMPT: {
+            x: 0,           // Center
+            y: -4 * scale   // Bottom padding (negative for bottom alignment)
+        }
+    }
 };
 
 // Helper function to get font string

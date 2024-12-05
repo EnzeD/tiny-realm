@@ -52,10 +52,13 @@ class WoodSystem {
     draw(ctx) {
         ctx.save();
 
-        // Draw wood count
-        drawShadowedText(ctx, `Wood: ${this.woodCount}`, 10, 30, {
+        // Draw wood count (top left)
+        drawShadowedText(ctx, `Wood: ${this.woodCount}`,
+            UI_CONFIG.positions.WOOD_COUNT.x,
+            UI_CONFIG.positions.WOOD_COUNT.y, {
             font: getFont('WOOD_COUNT'),
-            baseline: "middle"
+            baseline: "top",
+            align: "left"
         });
 
         // Draw floating texts
@@ -63,13 +66,15 @@ class WoodSystem {
             text.draw(ctx);
         });
 
-        // Draw "Press E to collect" prompt
+        // Draw "Press E to collect" prompt (bottom center)
         if (this.collectPromptAlpha > 0) {
             ctx.globalAlpha = this.collectPromptAlpha;
-            drawShadowedText(ctx, "Press E to collect", canvas.width / 2, canvas.height - 50, {
+            drawShadowedText(ctx, "Press E to collect",
+                canvas.width / 2,
+                canvas.height + UI_CONFIG.positions.COLLECT_PROMPT.y, {
                 font: getFont('COLLECT_PROMPT'),
                 align: "center",
-                baseline: "middle"
+                baseline: "bottom"
             });
         }
 

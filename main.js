@@ -10,9 +10,10 @@ let targetRefreshRate = 1 / 250;
 
 function showFPS() {
     ctx.save();
-    drawShadowedText(ctx, Math.floor(displayedFPS) + " FPS", canvas.width - 170, 30, {
+    drawShadowedText(ctx, Math.floor(displayedFPS) + " FPS", canvas.width + UI_CONFIG.positions.FPS.x, UI_CONFIG.positions.FPS.y, {
         font: getFont('FPS'),
-        baseline: "middle"
+        align: "right",
+        baseline: "top"
     });
     ctx.restore();
 }
