@@ -10,19 +10,19 @@ const TEXT_CONFIG = {
         weight: 'normal'
     },
     FPS: {
-        size: 6 * scale,
+        size: 8 * scale,
         weight: 'normal'
     },
     WOOD_COUNT: {
-        size: 6 * scale,
+        size: 8 * scale,
         weight: 'normal'
     },
     FLOATING_TEXT: {
-        size: 6 * scale,
+        size: 8 * scale,
         weight: 'normal'
     },
     COLLECT_PROMPT: {
-        size: 6 * scale,
+        size: 8 * scale,
         weight: 'normal'
     }
 };
@@ -40,19 +40,19 @@ const TEXT_SHADOW = {
 
 // UI layout configuration
 const UI_CONFIG = {
-    padding: 4 * scale,  // Base padding (8 pixels * scale)
+    padding: 8 * scale,  // Base padding (8 pixels * scale)
     positions: {
         WOOD_COUNT: {
-            x: 4 * scale,  // Left padding
-            y: 4 * scale   // Top padding
+            x: 6 * scale,  // Left padding
+            y: 8 * scale   // Top padding
         },
         FPS: {
-            x: -4 * scale,  // Right padding (negative for right alignment)
-            y: 4 * scale    // Top padding
+            x: -6 * scale,  // Right padding (negative for right alignment)
+            y: 8 * scale    // Top padding
         },
         COLLECT_PROMPT: {
             x: 0,           // Center
-            y: -4 * scale   // Bottom padding (negative for bottom alignment)
+            y: -8 * scale   // Bottom padding (negative for bottom alignment)
         }
     }
 };
@@ -62,9 +62,9 @@ function getFont(textType) {
     const config = TEXT_CONFIG[textType];
     if (!config) {
         console.warn(`No text configuration found for ${textType}`);
-        return "16px 'Pixelated Elegance'";
+        return "16px 'Simple Script'";
     }
-    return `${config.weight} ${config.size}px 'Pixelated Elegance'`;
+    return `${config.weight} ${config.size}px 'Simple Script'`;
 }
 
 // Helper function to draw shadowed text

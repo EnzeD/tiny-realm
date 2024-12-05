@@ -16,6 +16,10 @@ let camera;
 
 let fullscreenButton;
 
+let cursorSprite;
+let mouseX = 0;
+let mouseY = 0;
+
 function rnd(min, max) {
     return _.random(min, max);
 }
@@ -68,9 +72,22 @@ function startGame() {
         // Make camera follow player
         camera.follow(spritePlayer);
 
-        // Initialize fullscreen button
+        // Initialize cursor
         const interfaceImage = imageLoader.getImage("images/Interface.png");
+        cursorSprite = new Sprite(interfaceImage);
+        cursorSprite.setTileSheet(8, 8);
+        cursorSprite.currentFrame = 81;
+        cursorSprite.setScale(scale, scale);
+
+        // Initialize fullscreen button
         fullscreenButton = new FullscreenButton(interfaceImage);
+
+        // Add mouse move listener for cursor
+        canvas.addEventListener('mousemove', (event) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = event.clientX - rect.left;
+            mouseY = event.clientY - rect.top;
+        });
 
         gameReady = true;
     });
@@ -203,6 +220,13 @@ function draw(pCtx) {
     // Draw the fullscreen button (after restore so it's in screen space)
     if (fullscreenButton) {
         fullscreenButton.draw(pCtx);
+    }
+
+    // Draw cursor last (on top of everything)
+    if (cursorSprite) {
+        cursorSprite.x = mouseX - (4 * scale);  // Center the cursor on the mouse
+        cursorSprite.y = mouseY - (4 * scale);
+        cursorSprite.draw(pCtx);
     }
 }
 
