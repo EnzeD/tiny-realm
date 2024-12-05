@@ -13,7 +13,7 @@ const TEXT_CONFIG = {
         weight: 'normal'
     },
     WOOD_COUNT: {
-        size: 48,
+        size: 32,
         weight: 'normal'
     },
     FLOATING_TEXT: {
@@ -33,7 +33,7 @@ const TEXT_COLORS = {
 
 // Text shadow configuration
 const TEXT_SHADOW = {
-    offset: 6,
+    offset: 4,
     color: "rgba(0, 0, 0, 0.5)"
 };
 
