@@ -7,7 +7,11 @@ let lstSprites = [];
 let spritePlayer;
 let spriteEnemy;
 
-const SCALE = 5;
+const scale = 5;
+const tileWidth = 8;
+const tileHeight = 8;
+const mapWidth = 32;
+const mapHeight = 18;
 
 function rnd(min, max) {
     return Math.floor(Math.random() * (max - min) + min)
@@ -32,21 +36,22 @@ function startGame() {
     lstSprites = [];
 
     // Map
-    let imageMap = imageLoader.getImage("images/Overworld.png");
-    spriteMap = new Sprite(imageMap);
-    spriteMap.setTileSheet(8, 8);
-    spriteMap.currentFrame = 0;
-    spriteMap.setScale(SCALE, SCALE);
+    drawMap();
+
+    // Player
+    let imagePlayer = imageLoader.getImage("images/Units.png");
+    spritePlayer = new Sprite(imagePlayer);
+    spritePlayer.setTileSheet(tileWidth, tileHeight);
+
+    //spritePlayer.x = mapWidth / 2 * scale + tileWidth / 2;
+    //spritePlayer.y = mapHeight / 2 * scale + tileHeight / 2;
+    spritePlayer.currentFrame = 2;
 
     // Joueur
-    let imagePlayer = imageLoader.getImage("images/player.png");
-    spritePlayer = new Sprite(imagePlayer);
-    spritePlayer.setTileSheet(30, 16);
-    spritePlayer.x = 25 * 4;
-    spritePlayer.setScale(4, 4);
+    /*
     spritePlayer.addAnimation("TURNRIGHT", [0, 1, 2, 3, 4, 5, 6, 7, 8], 0.1, false);
     spritePlayer.addAnimation("TURNUP", [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], 0.1, false);
-    spritePlayer.startAnimation("TURNRIGHT");
+    spritePlayer.startAnimation("TURNRIGHT"); */
 
     // Ennemi rouge
     let imageEnemy = imageLoader.getImage("images/enemyred.png");
@@ -57,9 +62,10 @@ function startGame() {
     spriteEnemy.startAnimation("TURN");
 
 
-    lstSprites.push(spriteMap);
+    //lstSprites.push(spriteMap);
     //lstSprites.push(spritePlayer);
     //lstSprites.push(spriteEnemy);
+    lstSprites.push(spritePlayer);
 
     gameReady = true;
 }
@@ -72,10 +78,10 @@ function update(dt) {
     lstSprites.forEach(sprite => {
         sprite.update(dt);
     });
-
+    /*
     if (spritePlayer.currentAnimation.name == "TURNRIGHT" && spritePlayer.currentAnimation.end) {
         spritePlayer.startAnimation("TURNUP");
-    }
+    } */
 
     // checkPlayerInput(dt);
 }
