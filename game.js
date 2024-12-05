@@ -1,4 +1,4 @@
-let speed = 500;
+let speed = 200;
 
 let imageLoader = new ImageLoader();
 let gameReady = false;
@@ -13,19 +13,24 @@ const tileHeight = 8;
 const mapWidth = 32;
 const mapHeight = 18;
 
+let lstBackgroundSprites = [];
+let lstGameplaySprites = [];
+
+let collisionMap;
+
 function rnd(min, max) {
-    return Math.floor(Math.random() * (max - min) + min)
+    return _.random(min, max);
 }
 
 function load() {
     document.addEventListener("keydown", keyDown, false);
     document.addEventListener("keyup", keyUp, false);
 
-    imageLoader.add("images/enemyred.png");
-    imageLoader.add("images/player.png");
     imageLoader.add("images/Units.png");
     imageLoader.add("images/Animals.png");
     imageLoader.add("images/Overworld.png");
+    imageLoader.add("images/Walls.png");
+    imageLoader.add("images/Structures.png");
 
     imageLoader.start(startGame);
 }
@@ -33,41 +38,33 @@ function load() {
 function startGame() {
     console.log("Game Started");
 
-    lstSprites = [];
+    lstBackgroundSprites = [];
+    lstGameplaySprites = [];
 
     // Map
-    drawMap();
+    drawMap().then(map => {
+        collisionMap = map;
 
-    // Player
-    let imagePlayer = imageLoader.getImage("images/Units.png");
-    spritePlayer = new Sprite(imagePlayer);
-    spritePlayer.setTileSheet(tileWidth, tileHeight);
+        // Player
+        let imagePlayer = imageLoader.getImage("images/Units.png");
+        spritePlayer = new Sprite(imagePlayer);
+        spritePlayer.setTileSheet(tileWidth, tileHeight);
 
-    //spritePlayer.x = mapWidth / 2 * scale + tileWidth / 2;
-    //spritePlayer.y = mapHeight / 2 * scale + tileHeight / 2;
-    spritePlayer.currentFrame = 2;
+        // Position player in the middle of the screen
+        spritePlayer.x = (canvas.width / 2) - (tileWidth * scale / 2);
+        spritePlayer.y = (canvas.height / 2) - (tileHeight * scale / 2) + 30;
+        spritePlayer.setScale(scale, scale);
 
-    // Joueur
-    /*
-    spritePlayer.addAnimation("TURNRIGHT", [0, 1, 2, 3, 4, 5, 6, 7, 8], 0.1, false);
-    spritePlayer.addAnimation("TURNUP", [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], 0.1, false);
-    spritePlayer.startAnimation("TURNRIGHT"); */
+        // Set up animations
+        const rowOffset = 6 * 111;
+        spritePlayer.addAnimation("IDLE", [rowOffset + 6, rowOffset + 7, rowOffset + 8], 0.2);
+        spritePlayer.addAnimation("RUN", [rowOffset + 14, rowOffset + 15, rowOffset + 16, rowOffset + 17], 0.1);
+        spritePlayer.startAnimation("IDLE");
 
-    // Ennemi rouge
-    let imageEnemy = imageLoader.getImage("images/enemyred.png");
-    spriteEnemy = new Sprite(imageEnemy);
-    spriteEnemy.setTileSheet(24, 24);
-    spriteEnemy.setScale(4, 4);
-    spriteEnemy.addAnimation("TURN", [0, 1, 2, 3, 4, 5], 0.1);
-    spriteEnemy.startAnimation("TURN");
+        lstGameplaySprites.push(spritePlayer);
 
-
-    //lstSprites.push(spriteMap);
-    //lstSprites.push(spritePlayer);
-    //lstSprites.push(spriteEnemy);
-    lstSprites.push(spritePlayer);
-
-    gameReady = true;
+        gameReady = true;
+    });
 }
 
 function update(dt) {
@@ -75,15 +72,15 @@ function update(dt) {
         return;
     }
 
-    lstSprites.forEach(sprite => {
+    checkPlayerInput(dt);
+
+    lstBackgroundSprites.forEach(sprite => {
         sprite.update(dt);
     });
-    /*
-    if (spritePlayer.currentAnimation.name == "TURNRIGHT" && spritePlayer.currentAnimation.end) {
-        spritePlayer.startAnimation("TURNUP");
-    } */
 
-    // checkPlayerInput(dt);
+    lstGameplaySprites.forEach(sprite => {
+        sprite.update(dt);
+    });
 }
 
 function draw(pCtx) {
@@ -96,9 +93,30 @@ function draw(pCtx) {
         return;
     }
 
-    lstSprites.forEach(sprite => {
+    // Draw background first
+    lstBackgroundSprites.forEach(sprite => {
         sprite.draw(pCtx);
-    })
+    });
 
-    // img.draw(pCtx);
+    // Then draw gameplay sprites
+    lstGameplaySprites.forEach(sprite => {
+        sprite.draw(pCtx);
+    });
+
+    if (DEBUG_MODE) {
+        // Draw collision map
+        pCtx.fillStyle = "rgba(255, 0, 0, 0.3)";
+        for (let y = 0; y < mapHeight; y++) {
+            for (let x = 0; x < mapWidth; x++) {
+                if (collisionMap[y]?.[x]) {
+                    pCtx.fillRect(
+                        x * tileWidth * scale,
+                        y * tileHeight * scale,
+                        tileWidth * scale,
+                        tileHeight * scale
+                    );
+                }
+            }
+        }
+    }
 }

@@ -1,52 +1,147 @@
-
 let KeyRight = false;
 let KeyLeft = false;
 let KeyUp = false;
 let KeyDown = false;
+let DEBUG_MODE = false;
 
 function checkPlayerInput(dt) {
+    let isMoving = false;
+    let dx = 0;
+    let dy = 0;
+
+    // Calculate movement direction
     if (KeyRight) {
-        img.x += speed * dt;
+        dx += 1;
+        spritePlayer.flipX = false;
     }
     if (KeyLeft) {
-        img.x -= speed * dt;
+        dx -= 1;
+        spritePlayer.flipX = true;
     }
     if (KeyUp) {
-        img.y -= speed * dt;
+        dy -= 1;
     }
     if (KeyDown) {
-        img.y += speed * dt;
+        dy += 1;
+    }
+
+    // Normalize diagonal movement
+    if (dx !== 0 || dy !== 0) {
+        isMoving = true;
+        if (dx !== 0 && dy !== 0) {
+            const normalizer = 1 / Math.sqrt(2);
+            dx *= normalizer;
+            dy *= normalizer;
+        }
+
+        const playerWidth = tileWidth * scale;
+        const playerHeight = tileHeight * scale;
+
+        // Try horizontal movement first
+        if (dx !== 0) {
+            const newX = spritePlayer.x + dx * speed * dt;
+            const leftTile = Math.floor(newX / (tileWidth * scale));
+            const rightTile = Math.floor((newX + playerWidth) / (tileWidth * scale));
+            const topTile = Math.floor(spritePlayer.y / (tileHeight * scale));
+            const bottomTile = Math.floor((spritePlayer.y + playerHeight) / (tileHeight * scale));
+
+            let horizontalCollision = false;
+            for (let y = topTile; y <= bottomTile; y++) {
+                for (let x = leftTile; x <= rightTile; x++) {
+                    if (collisionMap[y]?.[x]) {
+                        horizontalCollision = true;
+                        break;
+                    }
+                }
+                if (horizontalCollision) break;
+            }
+
+            if (!horizontalCollision) {
+                spritePlayer.x = newX;
+            }
+        }
+
+        // Try vertical movement
+        if (dy !== 0) {
+            const newY = spritePlayer.y + dy * speed * dt;
+            const leftTile = Math.floor(spritePlayer.x / (tileWidth * scale));
+            const rightTile = Math.floor((spritePlayer.x + playerWidth) / (tileWidth * scale));
+            const topTile = Math.floor(newY / (tileHeight * scale));
+            const bottomTile = Math.floor((newY + playerHeight) / (tileHeight * scale));
+
+            let verticalCollision = false;
+            for (let y = topTile; y <= bottomTile; y++) {
+                for (let x = leftTile; x <= rightTile; x++) {
+                    if (collisionMap[y]?.[x]) {
+                        verticalCollision = true;
+                        break;
+                    }
+                }
+                if (verticalCollision) break;
+            }
+
+            if (!verticalCollision) {
+                spritePlayer.y = newY;
+            }
+        }
+    }
+
+    // Update animation based on movement
+    if (isMoving && spritePlayer.currentAnimation?.name !== "RUN") {
+        spritePlayer.startAnimation("RUN");
+    } else if (!isMoving && spritePlayer.currentAnimation?.name !== "IDLE") {
+        spritePlayer.startAnimation("IDLE");
     }
 }
 
 function keyUp(t) {
     t.preventDefault();
-    if (t.code == "ArrowRight") {
-        KeyRight = false;
-    }
-    if (t.code == "ArrowLeft") {
-        KeyLeft = false;
-    }
-    if (t.code == "ArrowUp") {
-        KeyUp = false;
-    }
-    if (t.code == "ArrowDown") {
-        KeyDown = false;
+    switch (t.code) {
+        case "ArrowRight":
+        case "KeyD":
+            KeyRight = false;
+            break;
+        case "ArrowLeft":
+        case "KeyA":
+        case "KeyQ":
+            KeyLeft = false;
+            break;
+        case "ArrowUp":
+        case "KeyW":
+        case "KeyZ":
+            KeyUp = false;
+            break;
+        case "ArrowDown":
+        case "KeyS":
+            KeyDown = false;
+            break;
     }
 }
 
 function keyDown(t) {
     t.preventDefault();
-    if (t.code == "ArrowRight") {
-        KeyRight = true;
-    }
-    if (t.code == "ArrowLeft") {
-        KeyLeft = true;
-    }
-    if (t.code == "ArrowUp") {
-        KeyUp = true;
-    }
-    if (t.code == "ArrowDown") {
-        KeyDown = true;
+    switch (t.code) {
+        case "ArrowRight":
+        case "KeyD":
+            KeyRight = true;
+            break;
+        case "ArrowLeft":
+        case "KeyA":
+        case "KeyQ":
+            KeyLeft = true;
+            break;
+        case "ArrowUp":
+        case "KeyW":
+        case "KeyZ":
+            KeyUp = true;
+            break;
+        case "ArrowDown":
+        case "KeyS":
+            KeyDown = true;
+            break;
+        case "KeyT":
+            DEBUG_MODE = !DEBUG_MODE;
+            console.log("Debug mode:", DEBUG_MODE ? "ON" : "OFF");
+            break;
     }
 }

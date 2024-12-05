@@ -23,6 +23,10 @@ class Sprite {
         this.tileSheet = false;
 
         this.animations = [];
+        this.flipX = false;
+
+        this.tileAnimations = null;
+        this.animationTimer = 0;
     }
 
     addAnimation(pName, pFrames, pSpeed, pLoop = true) {
@@ -64,6 +68,17 @@ class Sprite {
         this.scaleY = pY;
     }
 
+    setTileAnimation(pAnimationData) {
+        if (pAnimationData) {
+            this.tileAnimations = {
+                frames: pAnimationData.animation.map(frame => frame.tileid),
+                durations: pAnimationData.animation.map(frame => frame.duration / 1000),
+                currentFrame: 0,
+                currentDuration: 0
+            };
+        }
+    }
+
     update(dt) {
         if (this.currentAnimation != null) {
             this.frameTimer += dt;
@@ -79,6 +94,15 @@ class Sprite {
                     }
                 }
                 this.currentFrame = this.currentAnimation.frames[this.currentFrameInAnimation];
+            }
+        }
+
+        if (this.tileAnimations) {
+            this.animationTimer += dt;
+            if (this.animationTimer >= this.tileAnimations.durations[this.tileAnimations.currentFrame]) {
+                this.animationTimer = 0;
+                this.tileAnimations.currentFrame = (this.tileAnimations.currentFrame + 1) % this.tileAnimations.frames.length;
+                this.currentFrame = this.tileAnimations.frames[this.tileAnimations.currentFrame];
             }
         }
     }
@@ -98,7 +122,19 @@ class Sprite {
             let x = c * this.tileSize.x;
             let y = l * this.tileSize.y;
 
-            pCtx.drawImage(this.img, x, y, this.tileSize.x, this.tileSize.y, this.x, this.y, this.tileSize.x * this.scaleX, this.tileSize.y * this.scaleY);
+            pCtx.save();
+
+            if (this.flipX) {
+                pCtx.translate(this.x + (this.tileSize.x * this.scaleX), this.y);
+                pCtx.scale(-1, 1);
+                pCtx.drawImage(this.img, x, y, this.tileSize.x, this.tileSize.y,
+                    0, 0, this.tileSize.x * this.scaleX, this.tileSize.y * this.scaleY);
+            } else {
+                pCtx.drawImage(this.img, x, y, this.tileSize.x, this.tileSize.y,
+                    this.x, this.y, this.tileSize.x * this.scaleX, this.tileSize.y * this.scaleY);
+            }
+
+            pCtx.restore();
         }
     }
 }
