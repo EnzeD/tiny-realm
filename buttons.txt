@@ -1,0 +1,21 @@
+INSTRUCTIONS:
+I would like to have a starting menu. So when when the game starts
+- the total wood is not displayed
+- there is a big title written "Tiny Realm" (the name of the game)
+- Below there is one button "Play"
+- Below another one named "Help"
+
+SPECIFICATIONS FOR THE GAME TITLE:
+- I added a tile layer called "MenuBackground" in the map-test2.json
+- I added an object layer called "MenuText" in the map-test2.json
+- Display them correctly
+
+SPECIFICATIONS FOR THE BUTTONS:
+- Let's use a 9 slice system. I will give you the 9 tiles (8x8 pixels), from the Inputs.png image
+- Inputs.png is 30 columns wide
+for the "unselected" state:
+- Upper left is frame 600, upper 601, upper right 604
+- left is 630, middle is 631, right is 634
+- bottom left is 660, bottom is 661, bottom right is 664
+for the selected state, add +5 to the current frame
+for a nice addition, display the shadows below the buttons, using the selected or unselected current frame +20
