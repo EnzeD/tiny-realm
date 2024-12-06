@@ -24,6 +24,12 @@ const TEXT_CONFIG = {
     COLLECT_PROMPT: {
         size: 8 * scale,
         weight: 'normal'
+    },
+    GAME_TITLE: {
+        size: 14 * scale,
+        weight: 'normal',
+        text: 'Tiny Realm',
+        fontFamily: 'Pixelated Elegance'
     }
 };
 
@@ -64,7 +70,8 @@ function getFont(textType) {
         console.warn(`No text configuration found for ${textType}`);
         return "16px 'Simple Script'";
     }
-    return `${config.weight} ${config.size}px 'Simple Script'`;
+    const fontFamily = config.fontFamily || 'Simple Script';
+    return `${config.weight} ${config.size}px '${fontFamily}'`;
 }
 
 // Helper function to draw shadowed text

@@ -4,6 +4,7 @@ let gameReady = false;
 let lstSprites = [];
 
 const playerSpawnYOffset = 30;
+const playerSpawnXOffset = -12;
 
 let spritePlayer;
 let spriteEnemy;
@@ -47,6 +48,9 @@ function startGame() {
     lstBackgroundSprites = [];
     lstGameplaySprites = [];
 
+    // Initialize menu scene with imageLoader
+    window.sceneMenu = new SceneMenu(imageLoader);
+
     // Map
     drawMap().then(map => {
         collisionMap = map;
@@ -57,7 +61,7 @@ function startGame() {
         spritePlayer.setTileSheet(tileWidth, tileHeight);
 
         // Position player in the middle of the map using dynamic world size
-        spritePlayer.x = (window.WORLD_WIDTH * tileWidth * scale / 2) - (tileWidth * scale / 2);
+        spritePlayer.x = (window.WORLD_WIDTH * tileWidth * scale / 2) - (tileWidth * scale / 2) + playerSpawnXOffset;
         spritePlayer.y = (window.WORLD_HEIGHT * tileHeight * scale / 2) - (tileHeight * scale / 2) + playerSpawnYOffset;
         spritePlayer.setScale(scale, scale);
 
@@ -221,6 +225,9 @@ function draw(pCtx) {
     if (fullscreenButton) {
         fullscreenButton.draw(pCtx);
     }
+
+    // Draw menu last (on top of everything except cursor)
+    sceneMenu.draw(pCtx);
 
     // Draw cursor last (on top of everything)
     if (cursorSprite) {
