@@ -122,3 +122,14 @@ function drawShadowedText(ctx, text, x, y, options = {}) {
     if (options.baseline) ctx.textBaseline = originalBaseline;
     ctx.fillStyle = originalFillStyle;
 }
+
+const ARCHER = {
+    IDLE_FRAMES: [2115, 2116, 2117],
+    ATTACK_FRAMES: [2179, 2180, 2181, 2182, 2183, 2184, 2185, 2186, 2187],
+    IDLE_SPEED: 0.2,
+    ATTACK_SPEED: 0.1,
+    POSITIONS: [
+        { x: 27, y: 14 },
+        { x: 35, y: 14 }
+    ]
+};

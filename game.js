@@ -21,6 +21,8 @@ let cursorSprite;
 let mouseX = 0;
 let mouseY = 0;
 
+let lstArchers = [];
+
 function rnd(min, max) {
     return _.random(min, max);
 }
@@ -94,6 +96,27 @@ function startGame() {
             mouseY = event.clientY - rect.top;
         });
 
+        // Initialize archers
+        const imageUnits = imageLoader.getImage("images/Units.png");
+        ARCHER.POSITIONS.forEach(pos => {
+            const archer = new Sprite(imageUnits);
+            archer.setTileSheet(tileWidth, tileHeight);
+
+            // Position archer on tower (multiply by tile size and scale)
+            archer.x = pos.x * tileWidth * scale;
+            archer.y = pos.y * tileHeight * scale;
+            archer.setScale(scale, scale);
+
+            // Add animations
+            archer.addAnimation("IDLE", ARCHER.IDLE_FRAMES, ARCHER.IDLE_SPEED);
+            archer.addAnimation("ATTACK", ARCHER.ATTACK_FRAMES, ARCHER.ATTACK_SPEED, false);
+            archer.startAnimation("IDLE");
+
+            // Add to game sprites
+            lstGameplaySprites.push(archer);
+            lstArchers.push(archer);
+        });
+
         gameReady = true;
     });
 }
@@ -118,6 +141,13 @@ function update(dt) {
 
     lstGameplaySprites.forEach(sprite => {
         sprite.update(dt);
+    });
+
+    lstArchers.forEach(archer => {
+        // If attack animation ended, switch back to idle
+        if (archer.currentAnimation?.name === "ATTACK" && archer.currentAnimation.end) {
+            archer.startAnimation("IDLE");
+        }
     });
 }
 

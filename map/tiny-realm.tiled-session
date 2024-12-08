@@ -20,6 +20,14 @@
             "scaleInDock": 4,
             "scaleInEditor": 4
         },
+        "UI.tmx": {
+            "scale": 2.09,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.09569377990432,
+                "y": 79.90430622009569
+            }
+        },
         "basic-map.tmx": {
             "scale": 2.3607,
             "selectedLayer": 0,
@@ -29,11 +37,11 @@
             }
         },
         "map-test.tmx": {
-            "scale": 2.7657,
-            "selectedLayer": 0,
+            "scale": 4.93,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 261.0550674331996,
-                "y": 105.21748562750842
+                "x": 249.8985801217039,
+                "y": 109.33062880324545
             }
         },
         "map.tmx": {
