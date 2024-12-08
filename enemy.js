@@ -167,8 +167,11 @@ class Enemy extends Sprite {
     }
 
     hit() {
-        this.isDying = true;
-        this.startAnimation("HIT");
+        this.hp -= 1;
+        if (this.hp <= 0) {
+            this.isDying = true;
+            this.startAnimation("HIT");
+        }
     }
 }
 

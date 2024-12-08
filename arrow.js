@@ -24,19 +24,30 @@ class Arrow {
         // Add stuck arrow tracking
         this.isStuck = false;
         this.stuckPosition = null;
+        this.hasHit = false; // Add flag to prevent multiple hits
     }
 
     checkTargetCollision() {
+        // Don't check collision if arrow already hit something
+        if (this.hasHit) return false;
+
         // Simple box collision check with target
-        return this.x >= this.target.x &&
+        const hit = this.x >= this.target.x &&
             this.x <= this.target.x + (tileWidth * scale) &&
             this.y >= this.target.y &&
             this.y <= this.target.y + (tileHeight * scale);
+
+        if (hit) {
+            this.hasHit = true;
+            this.target.hit(); // Reduce enemy HP
+        }
+
+        return hit;
     }
 
     update(dt) {
-        // If stuck, keep the arrow in the array
-        if (this.isStuck) return false;
+        // If stuck or has hit something, keep the arrow in the array
+        if (this.isStuck || this.hasHit) return false;
 
         const moveDistance = this.speed * dt;
         this.distance += moveDistance;
