@@ -30,6 +30,12 @@ const TEXT_CONFIG = {
         weight: 'normal',
         text: 'Tiny Realm',
         fontFamily: 'Pixelated Elegance'
+    },
+    MENU_BUTTON: {
+        size: 8 * scale,
+        weight: 'normal',
+        fontFamily: 'Simple Script',
+        color: '#FFFFFF'
     }
 };
 

@@ -8,6 +8,8 @@ class SceneMenu {
 
         // Get the interface image that's already loaded
         this.interfaceImage = imageLoader.getImage("images/Interface.png");
+        this.inputsImage = imageLoader.getImage("images/Inputs.png");
+
         // Create sprites for all three layers
         this.innerTileSprite = new Sprite(this.interfaceImage);
         this.middleBorderSprite = new Sprite(this.interfaceImage);
@@ -25,6 +27,65 @@ class SceneMenu {
         this.innerTileSprite.setScale(scale, scale);
         this.middleBorderSprite.setScale(scale, scale);
         this.outerBorderSprite.setScale(scale, scale);
+
+        // Debug: Log button creation
+        console.log("Creating menu buttons with inputs image:", {
+            imageExists: !!this.inputsImage,
+            canvasWidth: canvas.width,
+            buttonWidth: 200
+        });
+
+        // Add buttons with debug logging
+        const buttonWidth = 200;
+        const buttonSpacing = 25;
+        const startY = 250;
+
+        this.buttons = [
+            new MenuButton(
+                this.inputsImage,
+                "Play",
+                (canvas.width - buttonWidth) / 2,
+                startY,
+                buttonWidth
+            ),
+            new MenuButton(
+                this.inputsImage,
+                "Help",
+                (canvas.width - buttonWidth) / 2,
+                startY + buttonSpacing * 3,
+                buttonWidth
+            )
+        ];
+
+        // Add mouse listeners
+        canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
+        canvas.addEventListener('click', this.handleClick.bind(this));
+    }
+
+    handleMouseMove(event) {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+
+        this.buttons.forEach(button => button.handleMouseMove(mouseX, mouseY));
+    }
+
+    handleClick(event) {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+
+        this.buttons.forEach((button, index) => {
+            if (button.isHovered) {
+                if (index === 0) { // Play button
+                    // Exit menu mode
+                    window.sceneMenu = null;
+                } else if (index === 1) { // Help button
+                    // TODO: Implement help functionality
+                    console.log("Help clicked");
+                }
+            }
+        });
     }
 
     draw(ctx) {
@@ -64,6 +125,9 @@ class SceneMenu {
             align: 'center',
             baseline: 'middle'
         });
+
+        // Draw buttons
+        this.buttons.forEach(button => button.draw(ctx));
     }
 }
 

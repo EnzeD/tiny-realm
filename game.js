@@ -35,6 +35,7 @@ function load() {
     imageLoader.add("images/Walls.png");
     imageLoader.add("images/Structures.png");
     imageLoader.add("images/Interface.png");
+    imageLoader.add("images/Inputs.png");
 
     imageLoader.start(startGame);
 }
@@ -226,8 +227,10 @@ function draw(pCtx) {
         fullscreenButton.draw(pCtx);
     }
 
-    // Draw menu last (on top of everything except cursor)
-    sceneMenu.draw(pCtx);
+    // Draw menu only if it exists
+    if (window.sceneMenu) {
+        window.sceneMenu.draw(pCtx);
+    }
 
     // Draw cursor last (on top of everything)
     if (cursorSprite) {
