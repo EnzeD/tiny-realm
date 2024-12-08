@@ -11,8 +11,8 @@ let KeyEPressed = false;
 let KeyEReady = true;
 
 function checkPlayerInput(dt) {
-    // If menu is active, don't process player movement
-    if (window.sceneMenu) {
+    // If menu is active or game is over, don't process player movement
+    if (window.sceneMenu || window.gameOver) {
         return;
     }
 
@@ -185,6 +185,19 @@ function keyUp(t) {
 
 function keyDown(t) {
     t.preventDefault();
+
+    // If game is over, only handle retry keys
+    if (window.gameOver) {
+        switch (t.code) {
+            case "Enter":
+            case "Space":
+                if (window.gameOverScreen) {
+                    window.gameOverScreen.restartGame();
+                }
+                break;
+        }
+        return;
+    }
 
     // Handle menu controls if menu is active
     if (window.sceneMenu) {

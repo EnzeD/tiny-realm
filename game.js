@@ -22,6 +22,8 @@ let cursorSprite;
 let mouseX = 0;
 let mouseY = 0;
 
+let waveManager;
+
 function rnd(min, max) {
     return _.random(min, max);
 }
@@ -104,6 +106,8 @@ function startGame() {
             lstArchers.push(archer);
         });
 
+        waveManager = new WaveManager(imageLoader.getImage("images/Units.png"));
+
         gameReady = true;
     });
 }
@@ -129,9 +133,11 @@ function update(dt) {
     lstGameplaySprites.forEach(sprite => {
         sprite.update(dt);
     });
+
+    waveManager.update(dt);
 }
 
-function draw(pCtx) {
+function draw(pCtx, dt) {
     if (!gameReady) {
         let ratio = imageLoader.getLoadedRatio();
         pCtx.fillStyle = "rgb(255,255, 255)";
@@ -161,6 +167,8 @@ function draw(pCtx) {
             sprite.draw(pCtx);
         }
     });
+
+    waveManager.draw(pCtx);
 
     if (DEBUG_MODE) {
         // Draw collision map (adjusted for camera)
@@ -225,6 +233,31 @@ function draw(pCtx) {
                 );
             }
         }
+    }
+
+    // Draw castle HP
+    if (typeof window.castleHP !== 'undefined') {
+        const castleX = 31 * tileWidth * scale;
+        const castleY = 13 * tileHeight * scale;
+
+        drawShadowedText(pCtx, `${window.castleHP}/100`,
+            castleX + (tileWidth * scale / 2),
+            castleY + (tileHeight * scale / 2), {
+            font: getFont('GAME_TITLE'),
+            align: 'center',
+            baseline: 'middle'
+        });
+    }
+
+    // Draw game over screen if game is over
+    if (window.gameOver) {
+        if (!window.gameOverScreen) {
+            window.gameOverScreen = new GameOverScreen(imageLoader);
+        }
+        if (dt) {  // Only update if dt is defined
+            window.gameOverScreen.update(dt);
+        }
+        window.gameOverScreen.draw(pCtx);
     }
 
     // Restore the context state

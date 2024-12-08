@@ -18,28 +18,16 @@ function showFPS() {
     ctx.restore();
 }
 
-function run(time) {
-    requestAnimationFrame(run);
-    let now = Date.now();
-    let dt = (time - lastUpdate) / 1000;
+function run() {
+    const now = Date.now();
+    const dt = (now - lastUpdate) / 1000;
+    lastUpdate = now;
 
-    if (dt < targetRefreshRate - 0.001) {
-        return;
-    }
-
-    fps = 1 / dt;
-    frameCount++;
-
-    if (frameCount >= 4) {
-        displayedFPS = fps;
-        frameCount = 0;
-    }
-
-    lastUpdate = time;
     update(dt);
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    draw(ctx);
-    showFPS();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    draw(ctx, dt);
+
+    requestAnimationFrame(run);
 }
 
 function init() {

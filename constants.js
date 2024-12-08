@@ -54,6 +54,14 @@ const TEXT_CONFIG = {
         size: 8 * scale,
         weight: 'normal',
         text: 'Need more wood for arrows!'
+    },
+    WAVE_COUNT: {
+        size: 8 * scale,
+        weight: 'normal',
+    },
+    WAVE_TIMER: {
+        size: 6 * scale,
+        weight: 'normal',
     }
 };
 
@@ -83,6 +91,14 @@ const UI_CONFIG = {
         COLLECT_PROMPT: {
             x: 0,           // Center
             y: -8 * scale   // Bottom padding (negative for bottom alignment)
+        },
+        WAVE_COUNT: {
+            x: 0,  // Center
+            y: 8 * scale  // Top padding
+        },
+        WAVE_TIMER: {
+            x: 0,  // Center
+            y: 16 * scale  // Below wave count
         }
     }
 };
@@ -137,3 +153,29 @@ const ARCHER = {
 
 // Add arrow cost
 const ARROW_COST = 1;
+
+const CASTLE = {
+    HP: 100,
+    CENTER: { x: 31, y: 13 }
+};
+
+const ENEMY = {
+    FARMER1: {
+        IDLE_FRAMES: [6666, 6667, 6668],
+        ATTACK_FRAMES: [6730, 6731, 6732, 6733, 6734, 6735, 6736, 6737, 6738, 6739, 6740, 6741, 6742, 6743, 6744],
+        HIT_FRAMES: [6772, 6763],
+        IDLE_SPEED: 0.2,
+        ATTACK_SPEED: 0.1,
+        HIT_SPEED: 0.1
+    },
+    FARMER2: {
+        IDLE_FRAMES: [7332, 7333, 7334],
+        ATTACK_FRAMES: [7396, 7397, 7398, 7399, 7400, 7401, 7402, 7403, 7404, 7405, 7406, 7407, 7408, 7409, 7410],
+        HIT_FRAMES: [7428, 7429],
+        IDLE_SPEED: 0.2,
+        ATTACK_SPEED: 0.1,
+        HIT_SPEED: 0.1
+    },
+    WAVE_COUNTS: [12, 24, 48, 96, 192, 384, 500, 1000],
+    WAVE_DELAY: 0 // seconds
+};
