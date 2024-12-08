@@ -18,13 +18,22 @@ class Enemy extends Sprite {
         this.hp = 1;
         this.isAttacking = false;
         this.isDying = false;
-        this.speed = BASE_SPEED * 5; // Half of base speed
+        this.speed = BASE_SPEED * 5;
 
-        // Calculate direction to castle
+        // Direction to castle
+        this.directionX = 0;
+        this.directionY = 0;
         this.calculateDirectionToCastle();
 
-        this.attackCooldown = 0;  // Track time since last attack
-        this.attackRate = 1;   // Attack every 1 second
+        // Attack timing
+        this.attackCooldown = 0;
+        this.attackRate = 1;
+
+        // Redirect behavior
+        this.isRedirecting = false;
+        this.redirectTimer = 0;
+        this.redirectDuration = 0.2;
+        this.currentRedirectAttempt = 0;  // 0: right, 1: up, 2: left, 3: down
     }
 
     calculateDirectionToCastle() {
@@ -39,17 +48,40 @@ class Enemy extends Sprite {
         this.directionY = dy / distance;
     }
 
+    tryAlternateDirection() {
+        // Choose a random direction
+        const randomDirection = Math.floor(Math.random() * 4);
+
+        switch (randomDirection) {
+            case 0: // Right
+                this.directionX = 1;
+                this.directionY = 0;
+                break;
+            case 1: // Up
+                this.directionX = 0;
+                this.directionY = -1;
+                break;
+            case 2: // Left
+                this.directionX = -1;
+                this.directionY = 0;
+                break;
+            case 3: // Down
+                this.directionX = 0;
+                this.directionY = 1;
+                break;
+        }
+    }
+
     update(dt) {
         super.update(dt);
 
         if (this.isDying) {
             if (this.currentAnimation.end) {
-                return true; // Signal to remove this enemy
+                return true;
             }
             return false;
         }
 
-        // Handle attack cooldown and damage if attacking
         if (this.isAttacking) {
             this.attackCooldown += dt;
             if (this.attackCooldown >= this.attackRate) {
@@ -68,50 +100,60 @@ class Enemy extends Sprite {
             return false;
         }
 
-        if (!this.isAttacking) {
-            // Check collisions before moving
-            const enemyWidth = tileWidth * scale;
-            const enemyHeight = tileHeight * scale;
-            let canMove = true;
-
-            // Calculate new position
-            const newX = this.x + this.directionX * this.speed * dt;
-            const newY = this.y + this.directionY * this.speed * dt;
-
-            // Flip sprite based on movement direction
-            this.flipX = this.directionX < 0;
-
-            // Check collision at new position
-            const leftTile = Math.floor(newX / (tileWidth * scale));
-            const rightTile = Math.floor((newX + enemyWidth) / (tileWidth * scale));
-            const topTile = Math.floor(newY / (tileHeight * scale));
-            const bottomTile = Math.floor((newY + enemyHeight) / (tileHeight * scale));
-
-            // Check all tiles the enemy would occupy
-            for (let y = topTile; y <= bottomTile; y++) {
-                for (let x = leftTile; x <= rightTile; x++) {
-                    if (collisionMap[y]?.[x]) {
-                        // Check if collision is with castle
-                        const objName = window.collisionNames[`${x},${y}`];
-                        if (objName === "Castle") {
-                            this.startAttack();
-                            return false;
-                        }
-                        canMove = false;
-                        break;
-                    }
-                }
-                if (!canMove) break;
-            }
-
-            // Only move if no collision detected
-            if (canMove) {
-                this.x = newX;
-                this.y = newY;
-            } else {
-                // Recalculate direction when hitting an obstacle
+        // Update redirect timer if active
+        if (this.isRedirecting) {
+            this.redirectTimer += dt;
+            if (this.redirectTimer >= this.redirectDuration) {
+                this.isRedirecting = false;
+                this.redirectTimer = 0;
                 this.calculateDirectionToCastle();
             }
+        }
+
+        // Check collisions before moving
+        const enemyWidth = tileWidth * scale;
+        const enemyHeight = tileHeight * scale;
+        const newX = this.x + this.directionX * this.speed * dt;
+        const newY = this.y + this.directionY * this.speed * dt;
+
+        this.flipX = this.directionX < 0;
+
+        // Check collision at new position
+        const leftTile = Math.floor(newX / (tileWidth * scale));
+        const rightTile = Math.floor((newX + enemyWidth) / (tileWidth * scale));
+        const topTile = Math.floor(newY / (tileHeight * scale));
+        const bottomTile = Math.floor((newY + enemyHeight) / (tileHeight * scale));
+
+        let canMove = true;
+        let hitCastle = false;
+
+        for (let y = topTile; y <= bottomTile; y++) {
+            for (let x = leftTile; x <= rightTile; x++) {
+                if (collisionMap[y]?.[x]) {
+                    const objName = window.collisionNames[`${x},${y}`];
+                    if (objName === "Castle") {
+                        hitCastle = true;
+                        break;
+                    }
+                    canMove = false;
+                }
+            }
+            if (hitCastle) break;
+        }
+
+        if (hitCastle) {
+            this.startAttack();
+            return false;
+        }
+
+        if (canMove) {
+            this.x = newX;
+            this.y = newY;
+        } else if (!this.isRedirecting) {
+            // Start redirect behavior with a new direction
+            this.isRedirecting = true;
+            this.redirectTimer = 0;
+            this.tryAlternateDirection();
         }
 
         return false;

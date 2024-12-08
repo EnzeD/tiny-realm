@@ -62,6 +62,10 @@ const TEXT_CONFIG = {
     WAVE_TIMER: {
         size: 6 * scale,
         weight: 'normal',
+    },
+    CASTLE_HP: {
+        size: 8 * scale,
+        weight: 'normal',
     }
 };
 
@@ -72,7 +76,7 @@ const TEXT_COLORS = {
 
 // Text shadow configuration
 const TEXT_SHADOW = {
-    offset: Math.floor(0.75 * scale),
+    offset: Math.floor(1 * scale),
     color: "rgba(0, 0, 0, 0.5)"
 };
 

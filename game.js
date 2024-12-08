@@ -243,7 +243,7 @@ function draw(pCtx, dt) {
         drawShadowedText(pCtx, `${window.castleHP}/100`,
             castleX + (tileWidth * scale / 2),
             castleY + (tileHeight * scale / 2), {
-            font: getFont('GAME_TITLE'),
+            font: getFont('CASTLE_HP'),
             align: 'center',
             baseline: 'middle'
         });
