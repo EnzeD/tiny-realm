@@ -57,9 +57,40 @@ class SceneMenu {
             )
         ];
 
+        // Initialize with Play button selected
+        this.selectedButtonIndex = 0;
+        this.buttons[0].isHovered = true;
+
         // Add mouse listeners
         canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
         canvas.addEventListener('click', this.handleClick.bind(this));
+    }
+
+    selectButton(index) {
+        // Deselect all buttons
+        this.buttons.forEach(button => button.isHovered = false);
+
+        // Select the new button
+        this.selectedButtonIndex = index;
+        this.buttons[index].isHovered = true;
+    }
+
+    selectNextButton() {
+        const nextIndex = (this.selectedButtonIndex + 1) % this.buttons.length;
+        this.selectButton(nextIndex);
+    }
+
+    selectPreviousButton() {
+        const prevIndex = (this.selectedButtonIndex - 1 + this.buttons.length) % this.buttons.length;
+        this.selectButton(prevIndex);
+    }
+
+    activateSelectedButton() {
+        if (this.selectedButtonIndex === 0) { // Play button
+            window.sceneMenu = null;
+        } else if (this.selectedButtonIndex === 1) { // Help button
+            console.log("Help clicked");
+        }
     }
 
     handleMouseMove(event) {
@@ -67,7 +98,20 @@ class SceneMenu {
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
 
-        this.buttons.forEach(button => button.handleMouseMove(mouseX, mouseY));
+        // Check if mouse is over any button
+        for (let i = 0; i < this.buttons.length; i++) {
+            const button = this.buttons[i];
+            if (mouseX >= button.x &&
+                mouseX <= button.x + button.width &&
+                mouseY >= button.y &&
+                mouseY <= button.y + button.height) {
+                // If mouse is over a different button than currently selected
+                if (this.selectedButtonIndex !== i) {
+                    this.selectButton(i);
+                }
+                return;
+            }
+        }
     }
 
     handleClick(event) {
@@ -75,15 +119,11 @@ class SceneMenu {
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
 
+        // Check each button for clicks
         this.buttons.forEach((button, index) => {
-            if (button.isHovered) {
-                if (index === 0) { // Play button
-                    // Exit menu mode
-                    window.sceneMenu = null;
-                } else if (index === 1) { // Help button
-                    // TODO: Implement help functionality
-                    console.log("Help clicked");
-                }
+            if (button.handleClick(mouseX, mouseY)) {
+                this.selectButton(index);
+                this.activateSelectedButton();
             }
         });
     }

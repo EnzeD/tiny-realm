@@ -3,6 +3,18 @@ const tileWidth = 8;
 const tileHeight = 8;
 const BASE_SPEED = 40;
 
+const RESOURCE_THRESHOLDS = {
+    ECONOMY: 10,  // Wood needed to unlock economy upgrades
+    DEFENSE: 50,  // Stone needed to unlock defense upgrades
+    SCIENCE: 100  // Gold needed to unlock science upgrades
+};
+
+const BUILDING_COSTS = {
+    WOOD_MINER: {
+        wood: 10
+    }
+};
+
 // Text size configuration
 const TEXT_CONFIG = {
     DEBUG: {
@@ -32,6 +44,12 @@ const TEXT_CONFIG = {
         fontFamily: 'Pixelated Elegance'
     },
     MENU_BUTTON: {
+        size: 8 * scale,
+        weight: 'normal',
+        fontFamily: 'Simple Script',
+        color: '#FFFFFF'
+    },
+    UPGRADE_BUTTON: {
         size: 8 * scale,
         weight: 'normal',
         fontFamily: 'Simple Script',

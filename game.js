@@ -82,7 +82,7 @@ function startGame() {
         cursorSprite = new Sprite(interfaceImage);
         cursorSprite.setTileSheet(8, 8);
         cursorSprite.currentFrame = 81;
-        cursorSprite.setScale(scale, scale);
+        cursorSprite.setScale(scale, scale); // TO DO: add shadows
 
         // Initialize fullscreen button
         fullscreenButton = new FullscreenButton(interfaceImage);

@@ -82,4 +82,16 @@ class WoodSystem {
     }
 }
 
-const woodSystem = new WoodSystem(); 
+const woodSystem = new WoodSystem();
+
+function collectWood(woodObj) {
+    if (!woodObj) return;
+
+    // Convert screen coordinates to world coordinates
+    const screenPos = camera.worldToScreen(woodObj.x, woodObj.y);
+    woodSystem.collectWood(screenPos.x, screenPos.y);
+
+    // Reset collection state
+    canCollectWood = false;
+    currentWoodObject = null;
+}

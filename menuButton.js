@@ -51,6 +51,17 @@ class MenuButton {
         }
     }
 
+    set isHovered(value) {
+        if (this._isHovered !== value) {
+            this._isHovered = value;
+            this.updateFrames();
+        }
+    }
+
+    get isHovered() {
+        return this._isHovered;
+    }
+
     handleMouseMove(mouseX, mouseY) {
         const wasHovered = this.isHovered;
         this.isHovered = (
@@ -63,6 +74,15 @@ class MenuButton {
         if (wasHovered !== this.isHovered) {
             this.updateFrames();
         }
+    }
+
+    handleClick(mouseX, mouseY) {
+        return (
+            mouseX >= this.x &&
+            mouseX <= this.x + this.width &&
+            mouseY >= this.y &&
+            mouseY <= this.y + this.height
+        );
     }
 
     draw(ctx) {

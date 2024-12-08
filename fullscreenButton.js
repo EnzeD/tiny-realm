@@ -67,7 +67,7 @@ class FullscreenButton {
             this.frameInterpolation = Math.max(0, this.frameInterpolation - dt * transitionSpeed);
         }
 
-        // Interpolate between frames 10 and 13
+        // Interpolate between frames 10 and 13 (the 2 images of the button)
         this.sprite.currentFrame = 10 + Math.round(this.frameInterpolation * 3);
     }
 

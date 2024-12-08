@@ -11,6 +11,11 @@ let KeyEPressed = false;
 let KeyEReady = true;
 
 function checkPlayerInput(dt) {
+    // If menu is active, don't process player movement
+    if (window.sceneMenu) {
+        return;
+    }
+
     let isMoving = false;
     let dx = 0;
     let dy = 0;
@@ -145,6 +150,12 @@ function checkPlayerInput(dt) {
 
 function keyUp(t) {
     t.preventDefault();
+
+    // If menu is active, don't process regular key up events
+    if (window.sceneMenu) {
+        return;
+    }
+
     switch (t.code) {
         case "ArrowRight":
         case "KeyD":
@@ -174,6 +185,28 @@ function keyUp(t) {
 
 function keyDown(t) {
     t.preventDefault();
+
+    // Handle menu controls if menu is active
+    if (window.sceneMenu) {
+        switch (t.code) {
+            case "ArrowUp":
+            case "KeyW":
+            case "KeyZ":
+                window.sceneMenu.selectPreviousButton();
+                break;
+            case "ArrowDown":
+            case "KeyS":
+                window.sceneMenu.selectNextButton();
+                break;
+            case "Enter":
+            case "Space":
+                window.sceneMenu.activateSelectedButton();
+                break;
+        }
+        return;
+    }
+
+    // Existing keyboard controls for gameplay
     switch (t.code) {
         case "ArrowRight":
         case "KeyD":
@@ -208,14 +241,9 @@ function keyDown(t) {
     }
 }
 
-function collectWood(woodObj) {
-    if (!woodObj) return;
 
-    // Convert screen coordinates to world coordinates
-    const screenPos = camera.worldToScreen(woodObj.x, woodObj.y);
-    woodSystem.collectWood(screenPos.x, screenPos.y);
-
-    // Reset collection state
-    canCollectWood = false;
-    currentWoodObject = null;
-}
+canvas.addEventListener('click', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const clickY = event.clientY - rect.top;
+});
