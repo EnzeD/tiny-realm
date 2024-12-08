@@ -88,6 +88,10 @@ class SceneMenu {
     activateSelectedButton() {
         if (this.selectedButtonIndex === 0) { // Play button
             window.sceneMenu = null;
+            // Enable waves when Play is clicked
+            if (window.waveManager) {
+                window.waveManager.enable();
+            }
         } else if (this.selectedButtonIndex === 1) { // Help button
             console.log("Help clicked");
         }

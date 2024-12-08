@@ -18,7 +18,7 @@ class Enemy extends Sprite {
         this.hp = 1;
         this.isAttacking = false;
         this.isDying = false;
-        this.speed = BASE_SPEED * 5;
+        this.speed = BASE_SPEED * 1;
 
         // Direction to castle
         this.directionX = 0;
@@ -32,7 +32,7 @@ class Enemy extends Sprite {
         // Redirect behavior
         this.isRedirecting = false;
         this.redirectTimer = 0;
-        this.redirectDuration = 0.2;
+        this.redirectDuration = 1;
         this.currentRedirectAttempt = 0;  // 0: right, 1: up, 2: left, 3: down
     }
 

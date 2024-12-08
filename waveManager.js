@@ -8,6 +8,7 @@ class WaveManager {
         this.castle = {
             hp: CASTLE.HP
         };
+        this.isEnabled = false;
     }
 
     spawnEnemy() {
@@ -42,6 +43,8 @@ class WaveManager {
     }
 
     update(dt) {
+        if (!this.isEnabled) return;
+
         if (this.currentWave >= ENEMY.WAVE_COUNTS.length) {
             return; // All waves completed
         }
@@ -122,5 +125,10 @@ class WaveManager {
 
         // Restore context state
         ctx.restore();
+    }
+
+    enable() {
+        this.isEnabled = true;
+        this.waveTimer = ENEMY.WAVE_DELAY;
     }
 } 

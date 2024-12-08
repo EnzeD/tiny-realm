@@ -23,9 +23,17 @@ function run() {
     const dt = (now - lastUpdate) / 1000;
     lastUpdate = now;
 
+    // Calculate FPS
+    frameCount++;
+    fps += (1 / dt - fps) / 10;
+    if (frameCount % 10 === 0) {
+        displayedFPS = fps;
+    }
+
     update(dt);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     draw(ctx, dt);
+    showFPS();
 
     requestAnimationFrame(run);
 }

@@ -181,5 +181,5 @@ const ENEMY = {
         HIT_SPEED: 0.1
     },
     WAVE_COUNTS: [12, 24, 48, 96, 192, 384, 500, 1000],
-    WAVE_DELAY: 0 // seconds
+    WAVE_DELAY: 5 // seconds
 };

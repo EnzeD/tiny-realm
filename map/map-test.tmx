@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="64" height="36" tilewidth="8" tileheight="8" infinite="0" nextlayerid="9" nextobjectid="38">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="64" height="36" tilewidth="8" tileheight="8" infinite="0" nextlayerid="9" nextobjectid="39">
  <editorsettings>
-  <export target="map-test2.json" format="json"/>
+  <export target="map-test3.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="Overworld.tsx"/>
  <tileset firstgid="2233" source="Walls.tsx"/>
@@ -168,7 +168,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="Collision" visible="0">
+ <objectgroup id="4" name="Collision">
   <object id="2" name="Castle" x="208" y="72.75" width="87.5" height="71.25"/>
   <object id="3" name="Lake" x="353.75" y="195.875" width="93.2917" height="34.625"/>
   <object id="7" name="LeftFire" x="232.022" y="143.942" width="7.93333" height="7.88889"/>
@@ -196,5 +196,6 @@
   <object id="30" name="Tree" x="313" y="161" width="14" height="13.6667"/>
   <object id="34" name="Wood" x="89" y="122" width="13.3333" height="4"/>
   <object id="35" name="Wood" x="361" y="73.6667" width="13.6667" height="5"/>
+  <object id="38" name="Castle" x="240.775" y="64.529" width="22.5101" height="13.5061"/>
  </objectgroup>
 </map>
