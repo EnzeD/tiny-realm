@@ -101,12 +101,12 @@ function startGame() {
         const imageUnits = imageLoader.getImage("images/Units.png");
         ARCHER.POSITIONS.forEach(pos => {
             const archer = new Archer(imageUnits, pos);
-            archer.setTarget(spritePlayer); // Set player as target
             lstGameplaySprites.push(archer);
             lstArchers.push(archer);
         });
 
         waveManager = new WaveManager(imageLoader.getImage("images/Units.png"));
+        window.waveManager = waveManager;
 
         gameReady = true;
     });

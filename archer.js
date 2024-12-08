@@ -25,10 +25,43 @@ class Archer extends Sprite {
         if (!this.woodSystem) {
             console.error('WoodSystem not initialized!');
         }
+
+        // Add debug info for closest enemy
+        this.closestEnemyDistance = null;
     }
 
-    setTarget(target) {
-        this.target = target;
+    findClosestEnemy(enemies) {
+        if (!enemies || enemies.length === 0) {
+            this.target = null;
+            this.closestEnemyDistance = null;
+            return;
+        }
+
+        const archerCenterX = this.x + (tileWidth * scale / 2);
+        const archerCenterY = this.y + (tileHeight * scale / 2);
+
+        let closestEnemy = null;
+        let closestDistance = Infinity;
+
+        enemies.forEach(enemy => {
+            if (enemy.isDying) return; // Skip dying enemies
+
+            const enemyCenterX = enemy.x + (tileWidth * scale / 2);
+            const enemyCenterY = enemy.y + (tileHeight * scale / 2);
+
+            const dx = enemyCenterX - archerCenterX;
+            const dy = enemyCenterY - archerCenterY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestEnemy = enemy;
+            }
+        });
+
+        // Update target and log debug info
+        this.target = closestEnemy;
+        this.closestEnemyDistance = closestDistance;
     }
 
     update(dt) {
@@ -37,6 +70,11 @@ class Archer extends Sprite {
         // Don't process attacks if menu exists
         if (window.sceneMenu) {
             return;
+        }
+
+        // Find closest enemy
+        if (window.waveManager) {
+            this.findClosestEnemy(window.waveManager.enemies);
         }
 
         // Update attack cooldown
@@ -97,7 +135,7 @@ class Archer extends Sprite {
         // Draw all active arrows
         this.arrows.forEach(arrow => arrow.draw(ctx));
 
-        // Draw warning if no wood
+        // Draw warning if no wood - now positioned under castle
         if (this.woodSystem.getWoodCount() < ARROW_COST && this.target) {
             ctx.save();
             const text = TEXT_CONFIG.NO_WOOD_WARNING.text;
@@ -105,12 +143,12 @@ class Archer extends Sprite {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'bottom';
 
-            // Position text under player
-            const targetCenterX = this.target.x + (tileWidth * scale / 2);
-            const targetBottomY = this.target.y + (tileHeight * scale) + (10 * scale);
+            // Position text under castle
+            const castleCenterX = CASTLE.CENTER.x * tileWidth * scale;
+            const castleBottomY = (CASTLE.CENTER.y + 1) * tileHeight * scale + (10 * scale);
 
             // Draw the text with shadow
-            drawShadowedText(ctx, text, targetCenterX, targetBottomY, {
+            drawShadowedText(ctx, text, castleCenterX, castleBottomY, {
                 font: ctx.font,
                 align: 'center',
                 baseline: 'bottom'
