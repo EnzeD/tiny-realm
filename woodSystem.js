@@ -25,9 +25,17 @@ class FloatingText {
 
 class WoodSystem {
     constructor() {
-        this.woodCount = 0;
+        this.woodCount = 10;
         this.floatingTexts = [];
         this.collectPromptAlpha = 0;
+    }
+
+    getWoodCount() {
+        return this.woodCount;
+    }
+
+    removeWood(amount) {
+        this.woodCount = Math.max(0, this.woodCount - amount);
     }
 
     collectWood(x, y) {
@@ -82,14 +90,15 @@ class WoodSystem {
     }
 }
 
-const woodSystem = new WoodSystem();
+// Create and attach to window
+window.woodSystem = new WoodSystem();
 
 function collectWood(woodObj) {
     if (!woodObj) return;
 
     // Convert screen coordinates to world coordinates
     const screenPos = camera.worldToScreen(woodObj.x, woodObj.y);
-    woodSystem.collectWood(screenPos.x, screenPos.y);
+    window.woodSystem.collectWood(screenPos.x, screenPos.y);
 
     // Reset collection state
     canCollectWood = false;

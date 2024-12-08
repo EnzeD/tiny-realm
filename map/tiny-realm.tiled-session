@@ -37,11 +37,42 @@
             }
         },
         "map-test.tmx": {
-            "scale": 4.93,
+            "scale": 3.5023,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 249.8985801217039,
-                "y": 109.33062880324545
+                "x": 248.69371555834738,
+                "y": 119.63566798960684
+            }
+        },
+        "map-test2.json": {
+            "scale": 0.9796874999999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 256.2041467304626,
+                "y": 143.9234449760766
+            }
+        },
+        "map-test2.json#Inputs": {
+            "scaleInDock": 1
+        },
+        "map-test2.json#Interface": {
+            "scaleInDock": 1
+        },
+        "map-test2.json#Overworld": {
+            "scaleInDock": 1
+        },
+        "map-test2.json#Structures": {
+            "scaleInDock": 1
+        },
+        "map-test2.json#Walls": {
+            "scaleInDock": 1
+        },
+        "map-test3.json": {
+            "scale": 0.9796874999999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 256.2041467304626,
+                "y": 143.9234449760766
             }
         },
         "map.tmx": {
@@ -54,10 +85,10 @@
         }
     },
     "frame.defaultDuration": 100,
-    "last.exportedFilePath": "C:/GameDev/JavaScript/tiny-realm",
+    "last.exportedFilePath": "/Users/nicolaszullo/Documents/GitHub/tiny-realm/map",
     "last.imagePath": "C:/Users/zullo/Downloads/Mini-Medieval-v2.1/Mini-Medieval-8x8",
     "map.height": 20,
-    "map.lastUsedExportFilter": "Fichiers de carte JSON (*.tmj *.json)",
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 8,
     "map.tileWidth": 8,
@@ -71,6 +102,8 @@
     ],
     "project": "tiny-realm.tiled-project",
     "recentFiles": [
+        "map-test2.json",
+        "map-test3.json",
         "basic-map.tmx",
         "Ores.tsx",
         "Overworld.tsx",

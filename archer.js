@@ -18,7 +18,13 @@ class Archer extends Sprite {
 
         this.arrows = [];
         this.attackCooldown = 0;
-        this.attackDelay = 1; // 1 second between attacks
+        this.attackDelay = 2;
+
+        // Add reference to wood system
+        this.woodSystem = window.woodSystem;
+        if (!this.woodSystem) {
+            console.error('WoodSystem not initialized!');
+        }
     }
 
     setTarget(target) {
@@ -27,6 +33,11 @@ class Archer extends Sprite {
 
     update(dt) {
         super.update(dt);
+
+        // Don't process attacks if menu exists
+        if (window.sceneMenu) {
+            return;
+        }
 
         // Update attack cooldown
         if (this.attackCooldown > 0) {
@@ -51,29 +62,61 @@ class Archer extends Sprite {
             const dy = targetCenterY - archerCenterY;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            // If target is in range and cooldown is ready
+            // If target is in range, cooldown is ready, and we have enough wood
             if (distance <= this.attackRange && this.attackCooldown <= 0) {
-                this.startAnimation("ATTACK");
-                this.attackCooldown = this.attackDelay;
+                if (this.woodSystem.getWoodCount() >= ARROW_COST) {
+                    this.startAnimation("ATTACK");
+                    this.attackCooldown = this.attackDelay;
+                    this.woodSystem.removeWood(ARROW_COST);
 
-                // Calculate arrow start position (from the side of the archer)
-                const arrowStartX = archerCenterX + (this.flipX ? -tileWidth : tileWidth) * scale;
-                const arrowStartY = archerCenterY;
+                    // Calculate arrow start position (from the side of the archer)
+                    const arrowStartX = archerCenterX + (this.flipX ? -tileWidth : tileWidth) * scale;
+                    const arrowStartY = archerCenterY;
 
-                // Create new arrow
-                this.arrows.push(new Arrow(
-                    arrowStartX,
-                    arrowStartY,
-                    targetCenterX,
-                    targetCenterY
-                ));
+                    // Create new arrow
+                    this.arrows.push(new Arrow(
+                        arrowStartX,
+                        arrowStartY,
+                        targetCenterX,
+                        targetCenterY,
+                        this.target
+                    ));
+                }
             }
         }
     }
 
     draw(ctx) {
         super.draw(ctx);
+
+        // Don't draw warnings if menu exists
+        if (window.sceneMenu) {
+            return;
+        }
+
         // Draw all active arrows
         this.arrows.forEach(arrow => arrow.draw(ctx));
+
+        // Draw warning if no wood
+        if (this.woodSystem.getWoodCount() < ARROW_COST && this.target) {
+            ctx.save();
+            const text = TEXT_CONFIG.NO_WOOD_WARNING.text;
+            ctx.font = getFont('NO_WOOD_WARNING');
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+
+            // Position text under player
+            const targetCenterX = this.target.x + (tileWidth * scale / 2);
+            const targetBottomY = this.target.y + (tileHeight * scale) + (10 * scale);
+
+            // Draw the text with shadow
+            drawShadowedText(ctx, text, targetCenterX, targetBottomY, {
+                font: ctx.font,
+                align: 'center',
+                baseline: 'bottom'
+            });
+
+            ctx.restore();
+        }
     }
 } 

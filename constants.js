@@ -3,11 +3,6 @@ const tileWidth = 8;
 const tileHeight = 8;
 const BASE_SPEED = 40;
 
-const RESOURCE_THRESHOLDS = {
-    ECONOMY: 10,  // Wood needed to unlock economy upgrades
-    DEFENSE: 50,  // Stone needed to unlock defense upgrades
-    SCIENCE: 100  // Gold needed to unlock science upgrades
-};
 
 const BUILDING_COSTS = {
     WOOD_MINER: {
@@ -54,6 +49,11 @@ const TEXT_CONFIG = {
         weight: 'normal',
         fontFamily: 'Simple Script',
         color: '#FFFFFF'
+    },
+    NO_WOOD_WARNING: {
+        size: 8 * scale,
+        weight: 'normal',
+        text: 'Need more wood for arrows!'
     }
 };
 
@@ -130,6 +130,10 @@ const ARCHER = {
     ATTACK_SPEED: 0.1,
     POSITIONS: [
         { x: 27, y: 14 },
-        { x: 35, y: 14 }
+        { x: 35, y: 14 },
+        { x: 31, y: 9 }
     ]
 };
+
+// Add arrow cost
+const ARROW_COST = 1;
