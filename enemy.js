@@ -236,6 +236,16 @@ class Enemy extends Sprite {
             return false;
         }
 
+        // Add check for no path
+        if (!this.path || this.path.length === 0) {
+            // Try to recalculate path one last time
+            this.calculatePath();
+            // If still no path, remove the enemy
+            if (!this.path || this.path.length === 0) {
+                return true; // This will remove the enemy
+            }
+        }
+
         // Move along path
         if (this.path.length > 0 && this.currentPathIndex < this.path.length) {
             const targetTile = this.path[this.currentPathIndex];

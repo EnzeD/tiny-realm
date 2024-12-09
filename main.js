@@ -9,6 +9,9 @@ let displayedFPS = 0;
 let targetRefreshRate = 1 / 250;
 
 function showFPS() {
+    // Only show FPS in debug mode
+    if (!DEBUG_MODE) return;
+
     ctx.save();
     drawShadowedText(ctx, Math.floor(displayedFPS) + " FPS", canvas.width + UI_CONFIG.positions.FPS.x, UI_CONFIG.positions.FPS.y, {
         font: getFont('FPS'),
