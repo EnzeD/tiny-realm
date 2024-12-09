@@ -252,10 +252,35 @@ function draw(pCtx, dt) {
         }
     }
 
-    // Draw castle HP
+    // Update castle blink timer
+    if (window.castleBlinkTime > 0) {
+        window.castleBlinkTime -= dt;
+    }
+
+    // Draw castle HP with blink effect
     if (typeof window.castleHP !== 'undefined') {
         const castleX = 31 * tileWidth * scale;
         const castleY = 13 * tileHeight * scale;
+
+        // Draw white overlay when blinking
+        if (window.castleBlinkTime > 0) {
+            pCtx.fillStyle = "rgba(255, 255, 255, 0.5)";
+            // Use the main castle area from the map
+            pCtx.fillRect(
+                208 * scale,  // x position
+                72.75 * scale,  // y position
+                87.5 * scale,  // width
+                71.25 * scale  // height
+            );
+
+            // Also cover the upper castle section
+            pCtx.fillRect(
+                240.775 * scale,  // x position
+                64.529 * scale,  // y position
+                22.5101 * scale,  // width
+                13.5061 * scale  // height
+            );
+        }
 
         drawShadowedText(pCtx, `${window.castleHP}/100`,
             castleX + (tileWidth * scale / 2),

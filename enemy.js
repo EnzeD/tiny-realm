@@ -40,6 +40,14 @@ class Enemy extends Sprite {
                 y: point[1] * tileHeight * scale
             }));
         }
+
+        // Add castle blink properties
+        if (typeof window.castleBlinkTime === 'undefined') {
+            window.castleBlinkTime = 0;
+        }
+        if (typeof window.castleBlinkDuration === 'undefined') {
+            window.castleBlinkDuration = 0.1; // Duration of blink in seconds
+        }
     }
 
     calculatePath() {
@@ -217,6 +225,8 @@ class Enemy extends Sprite {
                 }
                 if (window.castleHP > 0) {
                     window.castleHP -= 1;
+                    // Trigger castle blink when damage is dealt
+                    window.castleBlinkTime = window.castleBlinkDuration;
                     if (window.castleHP <= 0) {
                         window.castleHP = 0;
                         window.gameOver = true;

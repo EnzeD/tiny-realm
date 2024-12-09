@@ -145,7 +145,7 @@ function checkPlayerInput(dt) {
                     if (collisionMap[y]?.[x]) {
                         verticalCollision = true;
                         const objName = window.collisionNames[`${x},${y}`];
-                        console.log(`Collision with ${objName} at x:${x}, y:${y} while moving ${dy > 0 ? 'down' : 'up'}`);
+                        //console.log(`Collision with ${objName} at x:${x}, y:${y} while moving ${dy > 0 ? 'down' : 'up'}`);
                         break;
                     }
                 }
