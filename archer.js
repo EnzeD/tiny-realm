@@ -19,6 +19,7 @@ class Archer extends Sprite {
         this.arrows = [];
         this.attackCooldown = 0;
         this.attackDelay = 2;
+        this.baseAttackDelay = 2; // Keep this for upgrade calculations
 
         // Add reference to wood system
         this.woodSystem = window.woodSystem;
@@ -146,11 +147,9 @@ class Archer extends Sprite {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'bottom';
 
-            // Position text under castle
             const castleCenterX = CASTLE.CENTER.x * tileWidth * scale;
             const castleBottomY = (CASTLE.CENTER.y + 1) * tileHeight * scale + (10 * scale);
 
-            // Draw the text with shadow
             drawShadowedText(ctx, text, castleCenterX, castleBottomY, {
                 font: ctx.font,
                 align: 'center',

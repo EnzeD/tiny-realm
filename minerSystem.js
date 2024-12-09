@@ -41,10 +41,10 @@ class MinerSystem {
 
                 if (miner.type === "wood") {
                     window.woodSystem.addWood(resourcesToAdd);
-                    console.log(`Added ${resourcesToAdd} wood from ${miner.count} miners at ${key}`);
+                    //console.log(`Added ${resourcesToAdd} wood from ${miner.count} miners at ${key}`);
                 } else if (miner.type === "gold") {
                     window.goldSystem.addGold(resourcesToAdd);
-                    console.log(`Added ${resourcesToAdd} gold from ${miner.count} miners at ${key}`);
+                    //console.log(`Added ${resourcesToAdd} gold from ${miner.count} miners at ${key}`);
                 }
 
                 // Update the last mined time by the number of full seconds that passed

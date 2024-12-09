@@ -40,6 +40,20 @@ class GameOverScreen {
         window.castleHP = 100;
         window.gameOver = false;
         window.gameOverScreen = null;
+
+        // Reset resources
+        window.woodSystem = new WoodSystem();
+        window.goldSystem = new GoldSystem();
+        window.minerSystem = new MinerSystem();
+
+        // Reset archer upgrades
+        if (window.waveManager?.archers) {
+            window.waveManager.archers.forEach(archer => {
+                archer.upgradeLevel = 0;
+                archer.attackDelay = archer.baseAttackDelay;
+            });
+        }
+
         startGame();
 
         // Remove all event listeners

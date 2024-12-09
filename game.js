@@ -24,6 +24,8 @@ let mouseY = 0;
 
 let waveManager;
 
+let castleUpgrade;
+
 function rnd(min, max) {
     return _.random(min, max);
 }
@@ -111,6 +113,11 @@ function startGame() {
 
         waveManager = new WaveManager(imageLoader.getImage("images/Units.png"));
         window.waveManager = waveManager;
+        window.waveManager.archers = lstArchers;
+
+        // Initialize castle upgrade system
+        castleUpgrade = new CastleUpgrade();
+        window.castleUpgrade = castleUpgrade;
 
         gameReady = true;
     });
@@ -264,6 +271,11 @@ function draw(pCtx, dt) {
             window.gameOverScreen.update(dt);
         }
         window.gameOverScreen.draw(pCtx);
+    }
+
+    // Add castle upgrade UI drawing (before menu and cursor)
+    if (castleUpgrade && !window.gameOver && !window.sceneMenu) {
+        castleUpgrade.draw(pCtx);
     }
 
     // Restore the context state

@@ -14,6 +14,7 @@ let currentGoldObject = null;
 let lastGoldCollision = null;
 let KeyF = false;
 const MINER_COST = 10;
+let canUpgradeCastle = false;
 
 function checkPlayerInput(dt) {
     // If menu is active or game is over, don't process player movement
@@ -119,7 +120,7 @@ function checkPlayerInput(dt) {
                     if (collisionMap[y]?.[x]) {
                         horizontalCollision = true;
                         const objName = window.collisionNames[`${x},${y}`];
-                        console.log(`Collision with ${objName} at x:${x}, y:${y} while moving ${dx > 0 ? 'right' : 'left'}`);
+                        //console.log(`Collision with ${objName} at x:${x}, y:${y} while moving ${dx > 0 ? 'right' : 'left'}`);
                         break;
                     }
                 }
@@ -163,6 +164,9 @@ function checkPlayerInput(dt) {
     } else if (!isMoving && spritePlayer.currentAnimation?.name !== "IDLE") {
         spritePlayer.startAnimation("IDLE");
     }
+
+    // Update castle upgrade state
+    canUpgradeCastle = window.castleUpgrade?.isPlayerNearCastle() || false;
 }
 
 function keyUp(t) {
@@ -279,7 +283,10 @@ function keyDown(t) {
             break;
         case "KeyF":
             KeyF = true;
-            if (canCollectWood && currentWoodObject) {
+            if (canUpgradeCastle) {
+                console.log('Attempting castle upgrade...');
+                window.castleUpgrade.upgradeArchers();
+            } else if (canCollectWood && currentWoodObject) {
                 const tileX = Math.floor(currentWoodObject.x / (tileWidth * scale));
                 const tileY = Math.floor(currentWoodObject.y / (tileHeight * scale));
                 const cost = window.minerSystem.getNextCost(tileX, tileY);
