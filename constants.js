@@ -70,6 +70,10 @@ const TEXT_CONFIG = {
     MINER_COUNT: {
         size: 8 * scale,
         weight: 'normal',
+    },
+    HELP_TEXT: {
+        size: 6 * scale,
+        weight: 'normal',
     }
 };
 

@@ -50,7 +50,10 @@ function startGame() {
     console.log("Game Started");
 
     // Start background music
-    window.soundManager.playMusic('sounds/music1.mp3'); // Update with your music path
+    window.soundManager.playMusic('sounds/music1.mp3');
+
+    // Set imageLoader globally first
+    window.imageLoader = imageLoader;
 
     // Initialize camera with canvas dimensions
     camera = new Camera(canvas.width, canvas.height);
@@ -111,6 +114,7 @@ function startGame() {
             lstArchers.push(archer);
         });
 
+        // Create WaveManager after imageLoader is globally available
         waveManager = new WaveManager(imageLoader.getImage("images/Units.png"));
         window.waveManager = waveManager;
         window.waveManager.archers = lstArchers;

@@ -1,6 +1,10 @@
 class WaveManager {
     constructor(imageUnits) {
+        if (!window.imageLoader) {
+            throw new Error('ImageLoader must be initialized before WaveManager');
+        }
         this.imageUnits = imageUnits;
+        this.imageLoader = window.imageLoader;
         this.currentWave = 0;
         this.enemies = [];
         this.waveTimer = ENEMY.WAVE_DELAY;
@@ -85,7 +89,7 @@ class WaveManager {
         if (this.currentWave >= ENEMY.WAVE_COUNTS.length) {
             if (!window.victory) {
                 window.victory = true;
-                window.victoryScreen = new GameOverScreen(this.imageUnits, true);
+                window.victoryScreen = new GameOverScreen(this.imageLoader, true);
             }
             return;
         }

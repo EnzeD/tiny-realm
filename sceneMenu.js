@@ -177,8 +177,11 @@ class SceneMenu {
         // Draw help text if it's visible
         if (this.showHelp) {
             const helpLines = [
-                "ZQSD or arrow to move. E to collect. F to upgrade.",
-                "Assign workers to wood and gold. Uprade your castle.",
+                "ZQSD or arrows to move.",
+                "E to collect.",
+                "F to upgrade.",
+                "Assign workers to wood and gold.",
+                "Upgrade your castle.",
                 "Defeat all 4 waves."
             ];
 

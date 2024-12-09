@@ -49,6 +49,15 @@ class GameOverScreen {
         window.goldSystem = new GoldSystem();
         window.minerSystem = new MinerSystem();
 
+        // Reset WaveManager state
+        if (window.waveManager) {
+            window.waveManager.currentWave = 0;
+            window.waveManager.enemies = [];
+            window.waveManager.waveTimer = ENEMY.WAVE_DELAY;
+            window.waveManager.isWaveActive = false;
+            window.waveManager.isEnabled = false;
+        }
+
         // Reset archer upgrades
         if (window.waveManager?.archers) {
             window.waveManager.archers.forEach(archer => {
