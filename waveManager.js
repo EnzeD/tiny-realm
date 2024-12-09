@@ -9,6 +9,8 @@ class WaveManager {
         this.enemies = [];
         this.waveTimer = ENEMY.WAVE_DELAY;
         this.isWaveActive = false;
+        this.waveStartTime = 0;
+        this.MAX_WAVE_DURATION = 60;
         this.castle = {
             hp: CASTLE.HP
         };
@@ -102,6 +104,20 @@ class WaveManager {
             return;
         }
 
+        // Check wave duration
+        const currentTime = Date.now() / 1000;
+        if (currentTime - this.waveStartTime >= this.MAX_WAVE_DURATION) {
+            // Kill all enemies
+            this.enemies.forEach(enemy => enemy.hit());
+            // Clean up dead enemies
+            this.enemies = this.enemies.filter(enemy => !enemy.update(dt));
+            // End wave
+            this.isWaveActive = false;
+            this.currentWave++;
+            this.waveTimer = ENEMY.WAVE_DELAY;
+            return;
+        }
+
         // Update all enemies
         this.enemies = this.enemies.filter(enemy => !enemy.update(dt));
 
@@ -119,6 +135,7 @@ class WaveManager {
             this.spawnEnemy();
         }
         this.isWaveActive = true;
+        this.waveStartTime = Date.now() / 1000;
     }
 
     checkCollisions(arrows) {

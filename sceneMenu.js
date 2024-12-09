@@ -38,7 +38,7 @@ class SceneMenu {
         // Add buttons with debug logging
         const buttonWidth = 200;
         const buttonSpacing = 25;
-        const startY = 250;
+        const startY = 300;
 
         this.buttons = [
             new MenuButton(
@@ -178,14 +178,12 @@ class SceneMenu {
         if (this.showHelp) {
             const helpLines = [
                 "ZQSD or arrows to move.",
-                "E to collect.",
-                "F to upgrade.",
+                "E to collect. F to upgrade.",
                 "Assign workers to wood and gold.",
-                "Upgrade your castle.",
-                "Defeat all 4 waves."
+                "Upgrade your castle. Defeat all 4 waves."
             ];
 
-            const startY = 400;
+            const startY = 450;
             const lineHeight = 25;
 
             helpLines.forEach((line, index) => {
