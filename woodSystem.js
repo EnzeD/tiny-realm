@@ -14,6 +14,9 @@ class WoodSystem {
     }
 
     collectWood(x, y) {
+        // Don't collect if game is over or victory achieved
+        if (window.gameOver || window.victory) return;
+
         this.woodCount++;
         this.floatingTexts.push(new FloatingText(x, y, "+1"));
         window.soundManager.playRandomWoodChopSound();
@@ -95,7 +98,7 @@ class WoodSystem {
 window.woodSystem = new WoodSystem();
 
 function collectWood(woodObj) {
-    if (!woodObj) return;
+    if (!woodObj || window.gameOver || window.victory) return;
 
     // Convert screen coordinates to world coordinates
     const screenPos = camera.worldToScreen(woodObj.x, woodObj.y);

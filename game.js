@@ -130,10 +130,13 @@ function startGame() {
 function update(dt) {
     if (!gameReady) return;
 
-    checkPlayerInput(dt);
-    woodSystem.update(dt);
-    goldSystem.update(dt);
-    minerSystem.update();
+    // Don't process resource updates if game is over
+    if (!window.gameOver && !window.victory) {
+        checkPlayerInput(dt);
+        woodSystem.update(dt);
+        goldSystem.update(dt);
+        minerSystem.update();
+    }
 
     // Update fullscreen button
     if (fullscreenButton) {
@@ -291,6 +294,14 @@ function draw(pCtx, dt) {
         });
     }
 
+    // Restore the context state
+    pCtx.restore();
+
+    // Draw resources BEFORE game over screen
+    woodSystem.draw(pCtx);
+    goldSystem.draw(pCtx);
+    minerSystem.draw(pCtx);
+
     // Draw game over or victory screen
     if (window.gameOver) {
         if (!window.gameOverScreen) {
@@ -310,18 +321,6 @@ function draw(pCtx, dt) {
         window.victoryScreen.draw(pCtx);
     }
 
-    // Add castle upgrade UI drawing (before menu and cursor)
-    if (castleUpgrade && !window.gameOver && !window.sceneMenu) {
-        castleUpgrade.draw(pCtx);
-    }
-
-    // Restore the context state
-    pCtx.restore();
-
-    woodSystem.draw(pCtx);
-    goldSystem.draw(pCtx);
-    minerSystem.draw(pCtx);
-
     // Draw the fullscreen button (after restore so it's in screen space)
     if (fullscreenButton) {
         fullscreenButton.draw(pCtx);
@@ -334,7 +333,7 @@ function draw(pCtx, dt) {
 
     // Draw cursor last (on top of everything)
     if (cursorSprite) {
-        cursorSprite.x = mouseX - (4 * scale);  // Center the cursor on the mouse
+        cursorSprite.x = mouseX - (4 * scale);
         cursorSprite.y = mouseY - (4 * scale);
         cursorSprite.draw(pCtx);
     }

@@ -15,6 +15,9 @@ class GoldSystem {
     }
 
     collectGold(x, y) {
+        // Don't collect if game is over or victory achieved
+        if (window.gameOver || window.victory) return;
+
         this.goldCount++;
         this.hasCollectedGold = true;
         this.floatingTexts.push(new FloatingText(x, y, "+1"));
@@ -100,7 +103,7 @@ class GoldSystem {
 window.goldSystem = new GoldSystem();
 
 function collectGold(goldObj) {
-    if (!goldObj) return;
+    if (!goldObj || window.gameOver || window.victory) return;
 
     // Convert screen coordinates to world coordinates
     const screenPos = camera.worldToScreen(goldObj.x, goldObj.y);

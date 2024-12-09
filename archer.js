@@ -68,8 +68,8 @@ class Archer extends Sprite {
     update(dt) {
         super.update(dt);
 
-        // Don't process attacks if menu exists
-        if (window.sceneMenu) {
+        // Don't process attacks if menu exists or game is over/victory
+        if (window.sceneMenu || window.gameOver || window.victory) {
             return;
         }
 
