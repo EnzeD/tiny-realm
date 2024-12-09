@@ -107,6 +107,9 @@ class Archer extends Sprite {
                     this.attackCooldown = this.attackDelay;
                     this.woodSystem.removeWood(ARROW_COST);
 
+                    // Play random bow sound
+                    window.soundManager.playRandomBowSound();
+
                     // Calculate arrow start position (from the side of the archer)
                     const arrowStartX = archerCenterX + (this.flipX ? -tileWidth : tileWidth) * scale;
                     const arrowStartY = archerCenterY;

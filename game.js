@@ -46,6 +46,9 @@ function load() {
 function startGame() {
     console.log("Game Started");
 
+    // Start background music
+    window.soundManager.playMusic('sounds/music1.mp3'); // Update with your music path
+
     // Initialize camera with canvas dimensions
     camera = new Camera(canvas.width, canvas.height);
 

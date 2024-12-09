@@ -41,6 +41,7 @@ class WoodSystem {
     collectWood(x, y) {
         this.woodCount++;
         this.floatingTexts.push(new FloatingText(x, y, "+1"));
+        window.soundManager.playRandomWoodChopSound();
     }
 
     update(dt) {
