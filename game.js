@@ -262,15 +262,23 @@ function draw(pCtx, dt) {
         });
     }
 
-    // Draw game over screen if game is over
+    // Draw game over or victory screen
     if (window.gameOver) {
         if (!window.gameOverScreen) {
             window.gameOverScreen = new GameOverScreen(imageLoader);
         }
-        if (dt) {  // Only update if dt is defined
+        if (dt) {
             window.gameOverScreen.update(dt);
         }
         window.gameOverScreen.draw(pCtx);
+    } else if (window.victory) {
+        if (!window.victoryScreen) {
+            window.victoryScreen = new GameOverScreen(imageLoader, true);
+        }
+        if (dt) {
+            window.victoryScreen.update(dt);
+        }
+        window.victoryScreen.draw(pCtx);
     }
 
     // Add castle upgrade UI drawing (before menu and cursor)

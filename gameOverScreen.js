@@ -1,6 +1,7 @@
 class GameOverScreen {
-    constructor(imageLoader) {
+    constructor(imageLoader, isVictory = false) {
         this.inputsImage = imageLoader.getImage("images/Inputs.png");
+        this.isVictory = isVictory;
 
         // Create retry button - store canvas dimensions for proper centering
         this.buttonWidth = 200;
@@ -39,7 +40,9 @@ class GameOverScreen {
         // Reset game state
         window.castleHP = 100;
         window.gameOver = false;
+        window.victory = false;
         window.gameOverScreen = null;
+        window.victoryScreen = null;
 
         // Reset resources
         window.woodSystem = new WoodSystem();
@@ -97,8 +100,9 @@ class GameOverScreen {
         ctx.fillStyle = `rgba(0, 0, 0, ${this.fadeAlpha})`;
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-        // Draw "Game Over" text
-        drawShadowedText(ctx, "Game Over", ctx.canvas.width / 2, ctx.canvas.height / 2 - 50, {
+        // Draw "Game Over" or "Victory!" text
+        const message = this.isVictory ? "Victory!" : "Game Over";
+        drawShadowedText(ctx, message, ctx.canvas.width / 2, ctx.canvas.height / 2 - 50, {
             font: getFont('GAME_TITLE'),
             align: 'center',
             baseline: 'middle'

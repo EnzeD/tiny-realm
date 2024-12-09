@@ -80,10 +80,14 @@ class WaveManager {
     }
 
     update(dt) {
-        if (!this.isEnabled || window.gameOver) return;
+        if (!this.isEnabled || window.gameOver || window.victory) return;
 
         if (this.currentWave >= ENEMY.WAVE_COUNTS.length) {
-            return; // All waves completed
+            if (!window.victory) {
+                window.victory = true;
+                window.victoryScreen = new GameOverScreen(this.imageUnits, true);
+            }
+            return;
         }
 
         if (!this.isWaveActive) {
@@ -139,7 +143,7 @@ class WaveManager {
 
         // Save context state
         ctx.save();
-        // Reset transform for UI elements (they should not move with camera)
+        // Reset transform for UI elements
         ctx.setTransform(1, 0, 0, 1, 0, 0);
 
         // Draw wave count and timer
@@ -148,8 +152,8 @@ class WaveManager {
         ctx.textBaseline = 'top';
 
         const waveText = !this.isWaveActive && this.currentWave < ENEMY.WAVE_COUNTS.length
-            ? `Wave ${this.currentWave + 1}/8 - Next in ${Math.ceil(this.waveTimer)}s`
-            : `Wave ${this.currentWave + 1}/8`;
+            ? `Wave ${this.currentWave + 1}/4 - Next in ${Math.ceil(this.waveTimer)}s`
+            : `Wave ${this.currentWave + 1}/4`;
         const waveX = canvas.width / 2 + UI_CONFIG.positions.WAVE_COUNT.x;
         const waveY = UI_CONFIG.positions.WAVE_COUNT.y;
 

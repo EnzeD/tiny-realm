@@ -93,7 +93,8 @@ class SceneMenu {
                 window.waveManager.enable();
             }
         } else if (this.selectedButtonIndex === 1) { // Help button
-            console.log("Help clicked");
+            // Toggle help text visibility
+            this.showHelp = !this.showHelp;
         }
     }
 
@@ -172,6 +173,26 @@ class SceneMenu {
 
         // Draw buttons
         this.buttons.forEach(button => button.draw(ctx));
+
+        // Draw help text if it's visible
+        if (this.showHelp) {
+            const helpLines = [
+                "ZQSD or arrow to move. E to collect. F to upgrade.",
+                "Assign workers to wood and gold. Uprade your castle.",
+                "Defeat all 4 waves."
+            ];
+
+            const startY = 400;
+            const lineHeight = 25;
+
+            helpLines.forEach((line, index) => {
+                drawShadowedText(ctx, line, ctx.canvas.width / 2, startY + (index * lineHeight), {
+                    font: getFont('HELP_TEXT'),
+                    align: 'center',
+                    baseline: 'middle'
+                });
+            });
+        }
     }
 }
 
