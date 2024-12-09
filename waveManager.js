@@ -15,27 +15,64 @@ class WaveManager {
         // Randomly choose enemy type
         const type = Math.random() < 0.5 ? 'FARMER1' : 'FARMER2';
 
-        // Randomly choose spawn position outside map
+        // Randomly choose spawn position on the edge of the map
         let x, y;
-        const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+        let validPosition = false;
+        let attempts = 0;
+        const maxAttempts = 10; // Prevent infinite loops
 
-        switch (side) {
-            case 0: // top
-                x = Math.random() * window.WORLD_WIDTH * tileWidth * scale;
-                y = -tileHeight * scale;
-                break;
-            case 1: // right
-                x = window.WORLD_WIDTH * tileWidth * scale;
-                y = Math.random() * window.WORLD_HEIGHT * tileHeight * scale;
-                break;
-            case 2: // bottom
-                x = Math.random() * window.WORLD_WIDTH * tileWidth * scale;
-                y = window.WORLD_HEIGHT * tileHeight * scale;
-                break;
-            case 3: // left
-                x = -tileWidth * scale;
-                y = Math.random() * window.WORLD_HEIGHT * tileHeight * scale;
-                break;
+        while (!validPosition && attempts < maxAttempts) {
+            const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+
+            switch (side) {
+                case 0: // top
+                    x = Math.random() * (window.WORLD_WIDTH - 2) * tileWidth * scale + tileWidth * scale;
+                    y = tileHeight * scale;
+                    break;
+                case 1: // right
+                    // Avoid spawning in the bottom third when coming from right
+                    x = (window.WORLD_WIDTH - 2) * tileWidth * scale;
+                    y = Math.random() * (window.WORLD_HEIGHT * 0.67) * tileHeight * scale + tileHeight * scale;
+                    break;
+                case 2: // bottom
+                    // Avoid spawning in the right third of the map when coming from bottom
+                    x = Math.random() * (window.WORLD_WIDTH * 0.67) * tileWidth * scale + tileWidth * scale;
+                    x = Math.min(x, (window.WORLD_WIDTH - 2) * tileWidth * scale);
+                    y = (window.WORLD_HEIGHT - 2) * tileHeight * scale;
+                    break;
+                case 3: // left
+                    x = tileWidth * scale;
+                    y = Math.random() * (window.WORLD_HEIGHT - 2) * tileHeight * scale + tileHeight * scale;
+                    break;
+            }
+
+            // Check if position is valid (not in an obstacle)
+            const tileX = Math.floor(x / (tileWidth * scale));
+            const tileY = Math.floor(y / (tileHeight * scale));
+
+            // Check the tile and its immediate neighbors for obstacles
+            let hasCollision = false;
+            for (let dy = 0; dy <= 1; dy++) {
+                for (let dx = 0; dx <= 1; dx++) {
+                    const checkX = tileX + dx;
+                    const checkY = tileY + dy;
+                    if (collisionMap[checkY]?.[checkX]) {
+                        hasCollision = true;
+                        break;
+                    }
+                }
+                if (hasCollision) break;
+            }
+
+            validPosition = !hasCollision;
+            attempts++;
+        }
+
+        if (!validPosition) {
+            console.warn('Could not find valid spawn position after', maxAttempts, 'attempts');
+            // Use a fallback position if needed
+            x = tileWidth * scale;
+            y = tileHeight * scale;
         }
 
         const enemy = new Enemy(this.imageUnits, type, x, y);
@@ -43,7 +80,7 @@ class WaveManager {
     }
 
     update(dt) {
-        if (!this.isEnabled) return;
+        if (!this.isEnabled || window.gameOver) return;
 
         if (this.currentWave >= ENEMY.WAVE_COUNTS.length) {
             return; // All waves completed
@@ -111,7 +148,7 @@ class WaveManager {
         ctx.textBaseline = 'top';
 
         const waveText = !this.isWaveActive && this.currentWave < ENEMY.WAVE_COUNTS.length
-            ? `Wave ${this.currentWave + 1}/8 - Next wave in ${Math.ceil(this.waveTimer)}s`
+            ? `Wave ${this.currentWave + 1}/8 - Next in ${Math.ceil(this.waveTimer)}s`
             : `Wave ${this.currentWave + 1}/8`;
         const waveX = canvas.width / 2 + UI_CONFIG.positions.WAVE_COUNT.x;
         const waveY = UI_CONFIG.positions.WAVE_COUNT.y;

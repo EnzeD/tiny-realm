@@ -284,28 +284,6 @@
                  "y":34
                 }, 
                 {
-                 "height":43.6667,
-                 "id":13,
-                 "name":"Tree",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":13.3333,
-                 "x":337.333,
-                 "y":50.3333
-                }, 
-                {
-                 "height":13.3333,
-                 "id":14,
-                 "name":"Tree",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":6,
-                 "x":352.667,
-                 "y":57
-                }, 
-                {
                  "height":44,
                  "id":15,
                  "name":"Tree",
@@ -315,39 +293,6 @@
                  "width":6,
                  "x":329,
                  "y":57.6667
-                }, 
-                {
-                 "height":6.66667,
-                 "id":16,
-                 "name":"Tree",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":5,
-                 "x":337.333,
-                 "y":96
-                }, 
-                {
-                 "height":27.3333,
-                 "id":17,
-                 "name":"Tree",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":5.66667,
-                 "x":321,
-                 "y":66.6667
-                }, 
-                {
-                 "height":12,
-                 "id":18,
-                 "name":"Tree",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":6,
-                 "x":312.667,
-                 "y":74.3333
                 }, 
                 {
                  "height":29,
@@ -493,15 +438,81 @@
                  "y":73.6667
                 }, 
                 {
-                 "height":14.0661907163141,
+                 "height":13.5061,
                  "id":38,
                  "name":"Castle",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":20.4357865123809,
-                 "x":241.513840600865,
-                 "y":64.7575572600122
+                 "width":22.5101,
+                 "x":240.775,
+                 "y":64.529
+                }, 
+                {
+                 "height":13.3333333333333,
+                 "id":39,
+                 "name":"Tree",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":28.6666666666667,
+                 "x":329.666666666667,
+                 "y":57.6666666666667
+                }, 
+                {
+                 "height":30,
+                 "id":42,
+                 "name":"Tree",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":13.6666666666666,
+                 "x":337,
+                 "y":49
+                }, 
+                {
+                 "height":31,
+                 "id":43,
+                 "name":"Tree",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":15,
+                 "x":320.666666666667,
+                 "y":64.6666666666667
+                }, 
+                {
+                 "height":12,
+                 "id":44,
+                 "name":"Tree",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":36.6666666666666,
+                 "x":313,
+                 "y":73
+                }, 
+                {
+                 "height":16,
+                 "id":45,
+                 "name":"Tree",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":14.6666666666667,
+                 "x":327.333333333333,
+                 "y":86.6666666666667
+                }, 
+                {
+                 "height":14,
+                 "id":46,
+                 "name":"Tree",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":15.3333333333333,
+                 "x":334.333333333333,
+                 "y":80.3333333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -509,11 +520,11 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":8,
- "nextobjectid":39,
+ "nextlayerid":9,
+ "nextobjectid":47,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.11.0",
+ "tiledversion":"1.10.2",
  "tileheight":8,
  "tilesets":[
         {
