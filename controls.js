@@ -9,6 +9,9 @@ let currentWoodObject = null;
 let lastWoodCollision = null;
 let KeyEPressed = false;
 let KeyEReady = true;
+let canCollectGold = false;
+let currentGoldObject = null;
+let lastGoldCollision = null;
 
 function checkPlayerInput(dt) {
     // If menu is active or game is over, don't process player movement
@@ -42,9 +45,10 @@ function checkPlayerInput(dt) {
     const playerCenterX = Math.floor((spritePlayer.x + (tileWidth * scale / 2)) / (tileWidth * scale));
     const playerCenterY = Math.floor((spritePlayer.y + (tileHeight * scale / 2)) / (tileHeight * scale));
 
-    // Check surrounding tiles for wood
+    // Check surrounding tiles for wood and gold
     const radius = 2;
     let foundWoodThisFrame = false;
+    let foundGoldThisFrame = false;
 
     for (let dy = -radius; dy <= radius; dy++) {
         for (let dx = -radius; dx <= radius; dx++) {
@@ -53,18 +57,19 @@ function checkPlayerInput(dt) {
 
             if (collisionMap[tileY]?.[tileX]) {
                 const objName = window.collisionNames[`${tileX},${tileY}`];
-                if (objName === "Wood") {
-                    // Calculate actual distance
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance <= radius) {
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance <= radius) {
+                    if (objName === "Wood") {
                         foundWoodThisFrame = true;
                         lastWoodCollision = { x: tileX * tileWidth * scale, y: tileY * tileHeight * scale };
-                        break;
+                    } else if (objName === "Gold") {
+                        foundGoldThisFrame = true;
+                        lastGoldCollision = { x: tileX * tileWidth * scale, y: tileY * tileHeight * scale };
                     }
                 }
             }
         }
-        if (foundWoodThisFrame) break;
     }
 
     // Update wood collection state
@@ -75,6 +80,16 @@ function checkPlayerInput(dt) {
         canCollectWood = false;
         currentWoodObject = null;
         lastWoodCollision = null;
+    }
+
+    // Update gold collection state
+    if (foundGoldThisFrame) {
+        canCollectGold = true;
+        currentGoldObject = lastGoldCollision;
+    } else {
+        canCollectGold = false;
+        currentGoldObject = null;
+        lastGoldCollision = null;
     }
 
     // Handle movement
@@ -245,10 +260,16 @@ function keyDown(t) {
             break;
         case "KeyE":
             KeyE = true;
-            if (!KeyEPressed && KeyEReady && canCollectWood && currentWoodObject) {
-                collectWood(currentWoodObject);
-                KeyEPressed = true;
-                KeyEReady = false;
+            if (!KeyEPressed && KeyEReady) {
+                if (canCollectWood && currentWoodObject) {
+                    collectWood(currentWoodObject);
+                    KeyEPressed = true;
+                    KeyEReady = false;
+                } else if (canCollectGold && currentGoldObject) {
+                    collectGold(currentGoldObject);
+                    KeyEPressed = true;
+                    KeyEReady = false;
+                }
             }
             break;
     }

@@ -85,8 +85,12 @@ const UI_CONFIG = {
     padding: 8 * scale,  // Base padding (8 pixels * scale)
     positions: {
         WOOD_COUNT: {
-            x: 6 * scale,  // Left padding
-            y: 8 * scale   // Top padding
+            x: 6 * scale,  // Increase left padding
+            y: 8 * scale   // Adjust top padding
+        },
+        GOLD_COUNT: {
+            x: 6 * scale,  // Match wood count padding
+            y: 18 * scale  // Position below wood count with some spacing
         },
         FPS: {
             x: -6 * scale,  // Right padding (negative for right alignment)
@@ -94,7 +98,7 @@ const UI_CONFIG = {
         },
         COLLECT_PROMPT: {
             x: 0,           // Center
-            y: -8 * scale   // Bottom padding (negative for bottom alignment)
+            y: -50 * scale   // Bottom padding (negative for bottom alignment)
         },
         WAVE_COUNT: {
             x: 0,  // Center

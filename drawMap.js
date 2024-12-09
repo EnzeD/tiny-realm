@@ -2,6 +2,7 @@ function drawMap() {
     let imageOverworld = imageLoader.getImage("images/Overworld.png");
     let imageWalls = imageLoader.getImage("images/Walls.png");
     let imageStructures = imageLoader.getImage("images/Structures.png");
+    let imageOres = imageLoader.getImage("images/Ores.png");
 
     return fetch("map/map-test2.json")
         .then(response => response.json())
@@ -81,7 +82,9 @@ function drawMap() {
                             if (tileId >= tileset.firstgid) {
                                 tilesetImage = tileset.name === "Overworld" ? imageOverworld :
                                     tileset.name === "Walls" ? imageWalls :
-                                        imageStructures;
+                                        tileset.name === "Structures" ? imageStructures :
+                                            tileset.name === "Ores" ? imageOres :
+                                                imageStructures;
                                 adjustedTileId = tileId - tileset.firstgid;
                                 break;
                             }

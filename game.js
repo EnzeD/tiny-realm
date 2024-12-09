@@ -39,6 +39,7 @@ function load() {
     imageLoader.add("images/Structures.png");
     imageLoader.add("images/Interface.png");
     imageLoader.add("images/Inputs.png");
+    imageLoader.add("images/Ores.png");
 
     imageLoader.start(startGame);
 }
@@ -120,6 +121,7 @@ function update(dt) {
 
     checkPlayerInput(dt);
     woodSystem.update(dt);
+    goldSystem.update(dt);
 
     // Update fullscreen button
     if (fullscreenButton) {
@@ -267,6 +269,7 @@ function draw(pCtx, dt) {
     pCtx.restore();
 
     woodSystem.draw(pCtx);
+    goldSystem.draw(pCtx);
 
     // Draw the fullscreen button (after restore so it's in screen space)
     if (fullscreenButton) {
