@@ -54,9 +54,11 @@ class GoldSystem {
             text.draw(ctx);
         });
 
-        // Draw "Press E to collect" prompt
+        // Draw collection prompts
         if (this.collectPromptAlpha > 0) {
             ctx.globalAlpha = this.collectPromptAlpha;
+
+            // Draw "Press E to collect"
             drawShadowedText(ctx, "Press E to collect",
                 canvas.width / 2,
                 canvas.height + UI_CONFIG.positions.COLLECT_PROMPT.y, {
@@ -64,9 +66,33 @@ class GoldSystem {
                 align: "center",
                 baseline: "bottom"
             });
+
+            // Always show F prompt with current cost, but only if we have a valid object
+            if (currentGoldObject) {
+                const nextCost = window.minerSystem.getNextCost(
+                    Math.floor(currentGoldObject.x / (tileWidth * scale)),
+                    Math.floor(currentGoldObject.y / (tileHeight * scale))
+                );
+                const canAfford = this.goldCount >= nextCost;
+
+                ctx.globalAlpha = this.collectPromptAlpha * (canAfford ? 1 : 0.5);
+                drawShadowedText(ctx, `Press F to add a worker (${nextCost}g)`,
+                    canvas.width / 2,
+                    canvas.height + UI_CONFIG.positions.COLLECT_PROMPT.y - (10 * scale), {
+                    font: getFont('COLLECT_PROMPT'),
+                    align: "center",
+                    baseline: "bottom",
+                    color: canAfford ? TEXT_COLORS.main : "#FF6B6B"
+                });
+            }
         }
 
         ctx.restore();
+    }
+
+    addGold(amount) {
+        this.goldCount += amount;
+        this.hasCollectedGold = true;
     }
 }
 

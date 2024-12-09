@@ -66,6 +66,10 @@ const TEXT_CONFIG = {
     CASTLE_HP: {
         size: 8 * scale,
         weight: 'normal',
+    },
+    MINER_COUNT: {
+        size: 8 * scale,
+        weight: 'normal',
     }
 };
 

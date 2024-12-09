@@ -122,6 +122,7 @@ function update(dt) {
     checkPlayerInput(dt);
     woodSystem.update(dt);
     goldSystem.update(dt);
+    minerSystem.update();
 
     // Update fullscreen button
     if (fullscreenButton) {
@@ -270,6 +271,7 @@ function draw(pCtx, dt) {
 
     woodSystem.draw(pCtx);
     goldSystem.draw(pCtx);
+    minerSystem.draw(pCtx);
 
     // Draw the fullscreen button (after restore so it's in screen space)
     if (fullscreenButton) {

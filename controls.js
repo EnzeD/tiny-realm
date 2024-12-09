@@ -12,6 +12,8 @@ let KeyEReady = true;
 let canCollectGold = false;
 let currentGoldObject = null;
 let lastGoldCollision = null;
+let KeyF = false;
+const MINER_COST = 10;
 
 function checkPlayerInput(dt) {
     // If menu is active or game is over, don't process player movement
@@ -195,6 +197,9 @@ function keyUp(t) {
             KeyEPressed = false;
             KeyEReady = true;
             break;
+        case "KeyF":
+            KeyF = false;
+            break;
     }
 }
 
@@ -269,6 +274,28 @@ function keyDown(t) {
                     collectGold(currentGoldObject);
                     KeyEPressed = true;
                     KeyEReady = false;
+                }
+            }
+            break;
+        case "KeyF":
+            KeyF = true;
+            if (canCollectWood && currentWoodObject) {
+                const tileX = Math.floor(currentWoodObject.x / (tileWidth * scale));
+                const tileY = Math.floor(currentWoodObject.y / (tileHeight * scale));
+                const cost = window.minerSystem.getNextCost(tileX, tileY);
+                if (window.goldSystem.getGoldCount() >= cost) {
+                    window.minerSystem.addMiner(tileX, tileY, "wood");
+                    window.goldSystem.removeGold(cost);
+                    window.soundManager.playRandomWoodChopSound();
+                }
+            } else if (canCollectGold && currentGoldObject) {
+                const tileX = Math.floor(currentGoldObject.x / (tileWidth * scale));
+                const tileY = Math.floor(currentGoldObject.y / (tileHeight * scale));
+                const cost = window.minerSystem.getNextCost(tileX, tileY);
+                if (window.goldSystem.getGoldCount() >= cost) {
+                    window.minerSystem.addMiner(tileX, tileY, "gold");
+                    window.goldSystem.removeGold(cost);
+                    window.soundManager.playRandomWoodChopSound();
                 }
             }
             break;

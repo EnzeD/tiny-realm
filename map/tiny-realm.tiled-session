@@ -3,17 +3,30 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "basic-map.tmx",
+    "activeFile": "map-test2.json",
     "expandedProjectPaths": [
         "."
     ],
     "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
+        "Crops.tsx": {
+            "scaleInDock": 1
+        },
+        "Inputs.tsx": {
+            "scaleInDock": 3,
+            "scaleInEditor": 4.4465
+        },
+        "Interface.tsx": {
+            "scaleInDock": 3
+        },
         "Ores.tsx": {
             "scaleInDock": 4,
             "scaleInEditor": 4
         },
         "Overworld.tsx": {
-            "scaleInDock": 4,
+            "scaleInDock": 3,
             "scaleInEditor": 4
         },
         "Structures.tsx": {
@@ -28,6 +41,14 @@
                 "y": 79.90430622009569
             }
         },
+        "Units.tsx": {
+            "scaleInDock": 3,
+            "scaleInEditor": 5.1339
+        },
+        "Walls.tsx": {
+            "scaleInDock": 2.8195,
+            "scaleInEditor": 1
+        },
         "basic-map.tmx": {
             "scale": 2.3607,
             "selectedLayer": 0,
@@ -37,6 +58,9 @@
             }
         },
         "map-test.tmx": {
+            "expandedObjectLayers": [
+                4
+            ],
             "scale": 2.083,
             "selectedLayer": 4,
             "viewCenter": {
@@ -45,17 +69,20 @@
             }
         },
         "map-test2.json": {
-            "scale": 0.9796874999999999,
-            "selectedLayer": 0,
+            "scale": 3.7679,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 256.2041467304626,
-                "y": 143.9234449760766
+                "x": 251.86443376947375,
+                "y": 71.65795270575123
             }
         },
         "map-test2.json#Inputs": {
             "scaleInDock": 1
         },
         "map-test2.json#Interface": {
+            "scaleInDock": 1
+        },
+        "map-test2.json#Ores": {
             "scaleInDock": 1
         },
         "map-test2.json#Overworld": {
@@ -98,17 +125,28 @@
         "Structures.tsx",
         "Overworld.tsx",
         "Ores.tsx",
-        "basic-map.tmx"
+        "basic-map.tmx",
+        "Inputs.tsx",
+        "map-test.tmx",
+        "UI.tmx",
+        "Units.tsx",
+        "Walls.tsx",
+        "map-test2.json"
     ],
     "project": "tiny-realm.tiled-project",
     "recentFiles": [
-        "map-test2.json",
-        "map-test3.json",
-        "basic-map.tmx",
-        "Ores.tsx",
-        "Overworld.tsx",
+        "map.tmx",
         "Structures.tsx",
-        "map.tmx"
+        "Overworld.tsx",
+        "Ores.tsx",
+        "basic-map.tmx",
+        "Inputs.tsx",
+        "map-test.tmx",
+        "UI.tmx",
+        "Units.tsx",
+        "Walls.tsx",
+        "map-test2.json",
+        "map-test3.json"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
