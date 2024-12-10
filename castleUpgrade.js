@@ -14,7 +14,7 @@ class CastleUpgrade {
     }
 
     getNextUpgradeCost() {
-        return this.baseUpgradeCost * Math.pow(2, this.upgradeLevel);
+        return Math.floor(this.baseUpgradeCost * Math.pow(1.5, this.upgradeLevel));
     }
 
     isPlayerNearCastle() {
@@ -40,14 +40,22 @@ class CastleUpgrade {
             window.goldSystem.removeGold(cost);
             this.upgradeLevel++;
             window.waveManager.archers.forEach(archer => {
-                archer.attackDelay = archer.baseAttackDelay * Math.pow(0.8, this.upgradeLevel);
+                archer.attackDelay = archer.baseAttackDelay * Math.pow(0.75, this.upgradeLevel);
             });
             // Add sound effect for feedback
             window.soundManager.playRandomBowSound();
             console.log('Archers upgraded! New level:', this.upgradeLevel);
+
+            // Increase arrow speed
+            this.increaseArrowSpeed();
         } else {
             console.log('Not enough gold for upgrade. Need:', cost, 'Have:', window.goldSystem.getGoldCount());
         }
+    }
+
+    increaseArrowSpeed() {
+        // Increase the speed of all arrows
+        Arrow.prototype.speed += 75; // Increase by 75
     }
 
     draw(ctx, dt) {

@@ -173,8 +173,8 @@ class WaveManager {
         ctx.textBaseline = 'top';
 
         const waveText = !this.isWaveActive && this.currentWave < ENEMY.WAVE_COUNTS.length
-            ? `Wave ${this.currentWave + 1}/4 - Next in ${Math.ceil(this.waveTimer)}s`
-            : `Wave ${this.currentWave + 1}/4`;
+            ? `Wave ${this.currentWave + 1}/5 - Next in ${Math.ceil(this.waveTimer)}s`
+            : `Wave ${this.currentWave + 1}/5`;
         const waveX = canvas.width / 2 + UI_CONFIG.positions.WAVE_COUNT.x;
         const waveY = UI_CONFIG.positions.WAVE_COUNT.y;
 

@@ -2,13 +2,9 @@ class SoundManager {
     constructor() {
         // Initialize sound collections
         this.sounds = {
-            bow: [
-                new Audio('sounds/bow1.mp3'),
-                new Audio('sounds/bow2.mp3')
-            ],
+            bow: this.createSoundPool('sounds/bow', 2, 10), // Create 10 copies of each bow sound
             woodChop: [
                 new Audio('sounds/woodchop.mp3'),
-
             ],
             music: []
         };
@@ -27,15 +23,33 @@ class SoundManager {
         this.currentMusic = null;
         this.isMuted = false;
         this.musicVolume = 0.2;
+
+        // Track the next available sound in the pool
+        this.nextBowSound = 0;
+    }
+
+    // Create a pool of sound effects
+    createSoundPool(basePath, count, copies) {
+        const pool = [];
+        for (let i = 1; i <= count; i++) {
+            for (let j = 0; j < copies; j++) {
+                pool.push(new Audio(`${basePath}${i}.mp3`));
+            }
+        }
+        return pool;
     }
 
     playRandomBowSound() {
         if (this.isMuted) return;
 
         const bowSounds = this.sounds.bow;
-        const randomIndex = Math.floor(Math.random() * bowSounds.length);
-        bowSounds[randomIndex].currentTime = 0; // Reset sound to start
-        bowSounds[randomIndex].play();
+        // Use the next available sound in the pool
+        const sound = bowSounds[this.nextBowSound];
+        sound.currentTime = 0;
+        sound.play();
+
+        // Move to next sound in pool, wrap around if at end
+        this.nextBowSound = (this.nextBowSound + 1) % bowSounds.length;
     }
 
     playMusic(musicPath) {
