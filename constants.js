@@ -80,6 +80,7 @@ const TEXT_CONFIG = {
 // Text colors
 const TEXT_COLORS = {
     main: "#fff1a9",  // Warm white/yellow color
+    disabled: "#ff2e2e",  // Red color for disabled state
 };
 
 // Text shadow configuration

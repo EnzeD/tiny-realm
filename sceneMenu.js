@@ -28,12 +28,13 @@ class SceneMenu {
         this.middleBorderSprite.setScale(scale, scale);
         this.outerBorderSprite.setScale(scale, scale);
 
-        // Debug: Log button creation
+        /* Debug: Log button creation
         console.log("Creating menu buttons with inputs image:", {
             imageExists: !!this.inputsImage,
             canvasWidth: canvas.width,
             buttonWidth: 200
         });
+        */
 
         // Add buttons with debug logging
         const buttonWidth = 200;

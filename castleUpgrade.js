@@ -16,7 +16,7 @@ class CastleUpgrade {
         const dy = playerCenterY - CASTLE.CENTER.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        //console.log('Distance to castle:', distance, 'Is near:', distance <= 5);
+        console.log('Distance to castle:', distance, 'Is near:', distance <= 7);
         return distance <= 5;
     }
 
@@ -47,18 +47,18 @@ class CastleUpgrade {
             const nextCost = this.getNextUpgradeCost();
             const canAfford = window.goldSystem.getGoldCount() >= nextCost;
 
-            // Calculate position (above the castle)
-            const promptX = CASTLE.CENTER.x * tileWidth * scale;
-            const promptY = (CASTLE.CENTER.y - 1) * tileHeight * scale;
+            // Calculate world position (below the castle)
+            const worldX = (CASTLE.CENTER.x - 10.5) * tileWidth * scale;
+            const worldY = (CASTLE.CENTER.y) * tileHeight * scale;
 
-            ctx.globalAlpha = canAfford ? 1 : 0.5;
+            ctx.globalAlpha = canAfford ? 1 : 0.9;
             drawShadowedText(ctx, `Press F to upgrade archer speed (${nextCost}g)`,
-                promptX,
-                promptY, {
+                worldX,
+                worldY, {
                 font: getFont('COLLECT_PROMPT'),
                 align: "center",
-                baseline: "bottom",
-                color: canAfford ? TEXT_COLORS.main : "#FF6B6B"
+                baseline: "top",
+                color: canAfford ? TEXT_COLORS.main : TEXT_COLORS.disabled
             });
             ctx.restore();
         }

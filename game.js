@@ -320,6 +320,10 @@ function draw(pCtx, dt) {
         }
         window.victoryScreen.draw(pCtx);
     }
+    // Add castle upgrade UI drawing (before menu and cursor)
+    if (castleUpgrade && !window.gameOver && !window.sceneMenu) {
+        castleUpgrade.draw(pCtx);
+    }
 
     // Draw the fullscreen button (after restore so it's in screen space)
     if (fullscreenButton) {

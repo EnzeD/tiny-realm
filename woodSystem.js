@@ -74,14 +74,14 @@ class WoodSystem {
                 );
                 const canAfford = window.goldSystem.getGoldCount() >= nextCost;
 
-                ctx.globalAlpha = this.collectPromptAlpha * (canAfford ? 1 : 0.5);
+                ctx.globalAlpha = this.collectPromptAlpha * (canAfford ? 1 : 0.9);
                 drawShadowedText(ctx, `Press F to add a worker (${nextCost}g)`,
                     canvas.width / 2,
                     canvas.height + UI_CONFIG.positions.COLLECT_PROMPT.y - (10 * scale), {
                     font: getFont('COLLECT_PROMPT'),
                     align: "center",
                     baseline: "bottom",
-                    color: canAfford ? TEXT_COLORS.main : "#FF6B6B"
+                    color: canAfford ? TEXT_COLORS.main : TEXT_COLORS.disabled
                 });
             }
         }
