@@ -58,6 +58,10 @@ function startGame() {
     // Initialize camera with canvas dimensions
     camera = new Camera(canvas.width, canvas.height);
 
+    // Initialize arrow sprites for resource systems
+    window.woodSystem.initArrowSprite(imageLoader);
+    window.goldSystem.initArrowSprite(imageLoader);
+
     lstBackgroundSprites = [];
     lstGameplaySprites = [];
 
@@ -294,13 +298,22 @@ function draw(pCtx, dt) {
         });
     }
 
+    // Add castle upgrade UI drawing (before menu and cursor)
+    if (castleUpgrade && !window.gameOver && !window.sceneMenu) {
+        castleUpgrade.draw(pCtx, dt);
+    }
+
+    // Draw world-space resource elements BEFORE ctx.restore
+    woodSystem.drawWorldElements(pCtx, dt);
+    goldSystem.drawWorldElements(pCtx, dt);
+    minerSystem.draw(pCtx, dt);
+
     // Restore the context state
     pCtx.restore();
 
-    // Draw resources BEFORE game over screen
-    woodSystem.draw(pCtx);
-    goldSystem.draw(pCtx);
-    minerSystem.draw(pCtx);
+    // Draw screen-space resource elements AFTER ctx.restore
+    woodSystem.drawScreenElements(pCtx);
+    goldSystem.drawScreenElements(pCtx);
 
     // Draw game over or victory screen
     if (window.gameOver) {
@@ -319,10 +332,6 @@ function draw(pCtx, dt) {
             window.victoryScreen.update(dt);
         }
         window.victoryScreen.draw(pCtx);
-    }
-    // Add castle upgrade UI drawing (before menu and cursor)
-    if (castleUpgrade && !window.gameOver && !window.sceneMenu) {
-        castleUpgrade.draw(pCtx);
     }
 
     // Draw the fullscreen button (after restore so it's in screen space)

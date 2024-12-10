@@ -41,10 +41,8 @@ class MinerSystem {
 
                 if (miner.type === "wood") {
                     window.woodSystem.addWood(resourcesToAdd);
-                    //console.log(`Added ${resourcesToAdd} wood from ${miner.count} miners at ${key}`);
                 } else if (miner.type === "gold") {
                     window.goldSystem.addGold(resourcesToAdd);
-                    //console.log(`Added ${resourcesToAdd} gold from ${miner.count} miners at ${key}`);
                 }
 
                 // Update the last mined time by the number of full seconds that passed
@@ -61,16 +59,15 @@ class MinerSystem {
 
         this.miners.forEach((miner, key) => {
             const [x, y] = key.split(",").map(Number);
-            const screenPos = camera.worldToScreen(
-                x * tileWidth * scale + (tileWidth * scale / 2),
-                y * tileHeight * scale + (tileHeight * scale / 2)
-            );
+            // Convert tile coordinates to world coordinates
+            const worldX = x * tileWidth * scale + (tileWidth * scale / 2);
+            const worldY = y * tileHeight * scale + (tileHeight * scale / 2);
 
             // Draw count with shadow
             ctx.fillStyle = "black";
-            ctx.fillText(`${miner.count}`, screenPos.x + 1, screenPos.y + 1);
+            ctx.fillText(`${miner.count}`, worldX + 1, worldY + 1);
             ctx.fillStyle = miner.type === "wood" ? "#8B4513" : "#FFD700";
-            ctx.fillText(`${miner.count}`, screenPos.x, screenPos.y);
+            ctx.fillText(`${miner.count}`, worldX, worldY);
         });
 
         ctx.restore();
