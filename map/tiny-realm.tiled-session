@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map-test2.json",
+    "activeFile": "basic-map.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -50,11 +50,14 @@
             "scaleInEditor": 1
         },
         "basic-map.tmx": {
-            "scale": 2.3607,
-            "selectedLayer": 0,
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 3.8091,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": 170.28847375778372,
-                "y": 121.99771254288983
+                "x": 119.97584731301356,
+                "y": 51.71825365571919
             }
         },
         "map-test.tmx": {
@@ -64,16 +67,16 @@
             "scale": 2.083,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 314.45031204992796,
-                "y": 142.58281325012
+                "x": 255.8809409505521,
+                "y": 144.0230436869899
             }
         },
         "map-test2.json": {
             "scale": 3.7679,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 251.86443376947375,
-                "y": 71.65795270575123
+                "x": 256.1108309668516,
+                "y": 144.1121048860108
             }
         },
         "map-test2.json#Inputs": {
@@ -106,20 +109,20 @@
             "scale": 2.2412,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 1011.0655006246652,
-                "y": 626.4501160092807
+                "x": 960.19989291451,
+                "y": 537.2122077458505
             }
         }
     },
     "frame.defaultDuration": 100,
     "last.exportedFilePath": "/Users/nicolaszullo/Documents/GitHub/tiny-realm/map",
     "last.imagePath": "C:/Users/zullo/Downloads/Mini-Medieval-v2.1/Mini-Medieval-8x8",
-    "map.height": 20,
+    "map.height": 10,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 8,
     "map.tileWidth": 8,
-    "map.width": 30,
+    "map.width": 20,
     "openFiles": [
         "map.tmx",
         "Structures.tsx",
@@ -128,7 +131,6 @@
         "basic-map.tmx",
         "Inputs.tsx",
         "map-test.tmx",
-        "UI.tmx",
         "Units.tsx",
         "Walls.tsx",
         "map-test2.json"
@@ -139,13 +141,13 @@
         "Structures.tsx",
         "Overworld.tsx",
         "Ores.tsx",
-        "basic-map.tmx",
-        "Inputs.tsx",
-        "map-test.tmx",
-        "UI.tmx",
-        "Units.tsx",
-        "Walls.tsx",
         "map-test2.json",
+        "Walls.tsx",
+        "Units.tsx",
+        "map-test.tmx",
+        "Inputs.tsx",
+        "basic-map.tmx",
+        "UI.tmx",
         "map-test3.json"
     ],
     "tileset.lastUsedFormat": "tsx",
